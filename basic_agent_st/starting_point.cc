@@ -80,34 +80,45 @@ int main(int argc, const char * argv[]) {
             manoeuvre_msg.data_struct.Status = in->Status;
 
             // Example of using log
-            logger.log_var("Example", "cycle", in->CycleNumber);
-            logger.log_var("Example", "vel", in->VLgtFild);
-
-            // ADD AGENT CODE HERE
-
-            double *m1[5];
-            double *m2[5];
-
-            double *coeffs[5];
-            double *s_max;
-            double *tf;
+            //logger.log_var("Example", "cycle", in->CycleNumber);
+            logger.log_var("DataToPlot", "Time", num_seconds);
+            logger.log_var("DataToPlot", "LongVel", in->VLgtFild);
+            logger.log_var("DataToPlot", "LongAcc", in->ALgtFild);
+            logger.log_var("DataToPlot", "Fasullo", in->CycleNumber);
 
 
-            PassingPrimitive(5., 10., 10., 1., 25., 1., 60.,*m1, *m2);
-            StoppingPrimitive(5., 10., 10., *coeffs, s_max, tf);
+
+            // ADD AGENT CODE HE
+            double m2[6];
+            double m1[6];
+
+            double coeffs[6];
+            double s_max;
+            double tf ;
+
+
+           //PassingPrimitive(5., 10., 10., 1., 25., 1., 60., m1, m2);
+           //StoppingPrimitive(3., 6., 60., coeffs, &s_max, &tf);
+          
 
 
             // ADD LOW LEVEL CONTROL CODE HERE
-            manoeuvre_msg.data_struct.RequestedAcc = 0.1;
+            manoeuvre_msg.data_struct.RequestedAcc = 1;
             manoeuvre_msg.data_struct.RequestedSteerWhlAg = 0.0;
+            
 
             // Write log
-            logger.write_line("Example");
+            logger.write_line("DataToPlot");
 
             // Screen print
             printLogVar(message_id, "Time", num_seconds);
             printLogVar(message_id, "Status", in->Status);
             printLogVar(message_id, "CycleNumber", in->CycleNumber);
+            printLogVar(message_id, "TF dist", in->TrfLightDist);
+            printLogVar(message_id, "LongVel", in->VLgtFild);
+            printLogVar(message_id, "LongAcc", in->ALgtFild);
+
+
 
             // Send manoeuvre message to the environment
             if (server_send_to_client(server_run, message_id, &manoeuvre_msg.data_struct) == -1) {

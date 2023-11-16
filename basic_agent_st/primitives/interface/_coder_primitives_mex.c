@@ -17,8 +17,9 @@
 void mexFunction(int32_T nlhs, mxArray *plhs[], int32_T nrhs,
                  const mxArray *prhs[])
 {
-  static const char_T *emlrtEntryPoints[2] = {"PassingPrimitive",
-                                              "StoppingPrimitive"};
+  static const char_T *emlrtEntryPoints[4] = {
+      "PassingPrimitive", "PassingPrimitivej0", "StoppingPrimitive",
+      "StoppingPrimitivej0"};
   emlrtStack st = {
       NULL, /* site */
       NULL, /* tls */
@@ -30,12 +31,18 @@ void mexFunction(int32_T nlhs, mxArray *plhs[], int32_T nrhs,
   st.tls = emlrtRootTLSGlobal;
   /* Dispatch the entry-point. */
   switch (emlrtGetEntryPointIndexR2016a(
-      &st, nrhs, &prhs[0], (const char_T **)&emlrtEntryPoints[0], 2)) {
+      &st, nrhs, &prhs[0], (const char_T **)&emlrtEntryPoints[0], 4)) {
   case 0:
     unsafe_PassingPrimitive_mexFunction(nlhs, plhs, nrhs - 1, &prhs[1]);
     break;
   case 1:
+    unsafe_PassingPrimitivej0_mexFunction(nlhs, plhs, nrhs - 1, &prhs[1]);
+    break;
+  case 2:
     unsafe_StoppingPrimitive_mexFunction(nlhs, plhs, nrhs - 1, &prhs[1]);
+    break;
+  case 3:
+    unsafe_StoppingPrimitivej0_mexFunction(nlhs, plhs, nrhs - 1, &prhs[1]);
     break;
   }
   /* Module termination. */
@@ -85,6 +92,36 @@ void unsafe_PassingPrimitive_mexFunction(int32_T nlhs, mxArray *plhs[2],
   emlrtReturnArrays(i1, &plhs[0], &outputs[0]);
 }
 
+void unsafe_PassingPrimitivej0_mexFunction(int32_T nlhs, mxArray *plhs[1],
+                                           int32_T nrhs, const mxArray *prhs[5])
+{
+  emlrtStack st = {
+      NULL, /* site */
+      NULL, /* tls */
+      NULL  /* prev */
+  };
+  const mxArray *b_prhs[5];
+  const mxArray *outputs;
+  int32_T i;
+  st.tls = emlrtRootTLSGlobal;
+  /* Check for proper number of arguments. */
+  if (nrhs != 5) {
+    emlrtErrMsgIdAndTxt(&st, "EMLRT:runTime:WrongNumberOfInputs", 5, 12, 5, 4,
+                        18, "PassingPrimitivej0");
+  }
+  if (nlhs > 1) {
+    emlrtErrMsgIdAndTxt(&st, "EMLRT:runTime:TooManyOutputArguments", 3, 4, 18,
+                        "PassingPrimitivej0");
+  }
+  /* Call the function. */
+  for (i = 0; i < 5; i++) {
+    b_prhs[i] = prhs[i];
+  }
+  PassingPrimitivej0_api(b_prhs, &outputs);
+  /* Copy over outputs to the caller. */
+  emlrtReturnArrays(1, &plhs[0], &outputs);
+}
+
 void unsafe_StoppingPrimitive_mexFunction(int32_T nlhs, mxArray *plhs[3],
                                           int32_T nrhs, const mxArray *prhs[3])
 {
@@ -111,6 +148,41 @@ void unsafe_StoppingPrimitive_mexFunction(int32_T nlhs, mxArray *plhs[3],
   b_prhs[1] = prhs[1];
   b_prhs[2] = prhs[2];
   StoppingPrimitive_api(b_prhs, nlhs, outputs);
+  /* Copy over outputs to the caller. */
+  if (nlhs < 1) {
+    i = 1;
+  } else {
+    i = nlhs;
+  }
+  emlrtReturnArrays(i, &plhs[0], &outputs[0]);
+}
+
+void unsafe_StoppingPrimitivej0_mexFunction(int32_T nlhs, mxArray *plhs[3],
+                                            int32_T nrhs,
+                                            const mxArray *prhs[2])
+{
+  emlrtStack st = {
+      NULL, /* site */
+      NULL, /* tls */
+      NULL  /* prev */
+  };
+  const mxArray *outputs[3];
+  const mxArray *b_prhs[2];
+  int32_T i;
+  st.tls = emlrtRootTLSGlobal;
+  /* Check for proper number of arguments. */
+  if (nrhs != 2) {
+    emlrtErrMsgIdAndTxt(&st, "EMLRT:runTime:WrongNumberOfInputs", 5, 12, 2, 4,
+                        19, "StoppingPrimitivej0");
+  }
+  if (nlhs > 3) {
+    emlrtErrMsgIdAndTxt(&st, "EMLRT:runTime:TooManyOutputArguments", 3, 4, 19,
+                        "StoppingPrimitivej0");
+  }
+  /* Call the function. */
+  b_prhs[0] = prhs[0];
+  b_prhs[1] = prhs[1];
+  StoppingPrimitivej0_api(b_prhs, nlhs, outputs);
   /* Copy over outputs to the caller. */
   if (nlhs < 1) {
     i = 1;

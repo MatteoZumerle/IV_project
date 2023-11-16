@@ -28,17 +28,28 @@ extern "C" {
 
 /* Function Declarations */
 void PassingPrimitive(real_T a0, real_T v0, real_T sf, real_T b_vmin,
-                      real_T b_vmax, real_T Tmin, real_T Tmax, real_T m1[5],
-                      real_T m2[5]);
+                      real_T b_vmax, real_T Tmin, real_T Tmax, real_T m1[6],
+                      real_T m2[6]);
 
 void PassingPrimitive_api(const mxArray *const prhs[7], int32_T nlhs,
                           const mxArray *plhs[2]);
 
-void StoppingPrimitive(real_T a0, real_T v0, real_T sf, real_T coeffs[5],
+void PassingPrimitivej0(real_T a0, real_T v0, real_T sf, real_T b_vmin,
+                        real_T b_vmax, real_T m1[6]);
+
+void PassingPrimitivej0_api(const mxArray *const prhs[5], const mxArray **plhs);
+
+void StoppingPrimitive(real_T a0, real_T v0, real_T sf, real_T coeffs[6],
                        real_T *s_max, real_T *tf);
 
 void StoppingPrimitive_api(const mxArray *const prhs[3], int32_T nlhs,
                            const mxArray *plhs[3]);
+
+void StoppingPrimitivej0(real_T a0, real_T v0, real_T m[6], real_T *s_max,
+                         real_T *tf);
+
+void StoppingPrimitivej0_api(const mxArray *const prhs[2], int32_T nlhs,
+                             const mxArray *plhs[3]);
 
 void primitives_atexit(void);
 

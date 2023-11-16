@@ -289,6 +289,193 @@ CMakeFiles/basic_agent.dir/log/screen_print.c.o: ../log/screen_print.c \
   /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
   ../log/screen_print_c.h
 
+CMakeFiles/basic_agent.dir/primitives/primitives.c.o: ../primitives/primitives.c \
+  ../primitives/primitives.h \
+  ../primitives/rtwtypes.h \
+  ../primitives/tmwtypes.h \
+  /usr/lib/llvm-14/lib/clang/14.0.0/include/limits.h \
+  /usr/include/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
+  /usr/include/features.h \
+  /usr/include/features-time64.h \
+  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+  /usr/include/x86_64-linux-gnu/bits/timesize.h \
+  /usr/include/stdc-predef.h \
+  /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+  /usr/include/x86_64-linux-gnu/bits/long-double.h \
+  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+  /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/local_lim.h \
+  /usr/include/linux/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
+  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min.h \
+  /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
+  /usr/lib/llvm-14/lib/clang/14.0.0/include/stdbool.h \
+  /usr/lib/llvm-14/lib/clang/14.0.0/include/float.h \
+  /usr/lib/llvm-14/lib/clang/14.0.0/include/stddef.h \
+  /usr/lib/llvm-14/lib/clang/14.0.0/include/__stddef_max_align_t.h \
+  ../primitives/simstruc_types.h \
+  ../primitives/sl_types_def.h \
+  ../primitives/rtw_matlogging.h \
+  ../primitives/rtw_extmode.h \
+  ../primitives/rtw_continuous.h \
+  ../primitives/rtw_solver.h \
+  ../primitives/sysran_types.h \
+  ../primitives/sl_sample_time_defs.h \
+  /usr/include/stdlib.h \
+  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
+  /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
+  /usr/include/x86_64-linux-gnu/bits/floatn.h \
+  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
+  /usr/include/x86_64-linux-gnu/sys/types.h \
+  /usr/include/x86_64-linux-gnu/bits/types.h \
+  /usr/include/x86_64-linux-gnu/bits/typesizes.h \
+  /usr/include/x86_64-linux-gnu/bits/time64.h \
+  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
+  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
+  /usr/include/endian.h \
+  /usr/include/x86_64-linux-gnu/bits/endian.h \
+  /usr/include/x86_64-linux-gnu/bits/endianness.h \
+  /usr/include/x86_64-linux-gnu/bits/byteswap.h \
+  /usr/include/x86_64-linux-gnu/bits/uintn-identity.h \
+  /usr/include/x86_64-linux-gnu/sys/select.h \
+  /usr/include/x86_64-linux-gnu/bits/select.h \
+  /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/__sigset_t.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_timespec.h \
+  /usr/include/x86_64-linux-gnu/bits/pthreadtypes.h \
+  /usr/include/x86_64-linux-gnu/bits/thread-shared-types.h \
+  /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h \
+  /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h \
+  /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
+  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h \
+  /usr/include/alloca.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+  ../primitives/rt_nonfinite.h \
+  /usr/include/math.h \
+  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
+  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
+  /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
+  /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
+  /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
+  /usr/include/x86_64-linux-gnu/bits/mathcalls.h
+
+CMakeFiles/basic_agent.dir/primitives/rtGetInf.c.o: ../primitives/rtGetInf.c \
+  ../primitives/rtGetInf.h \
+  ../primitives/rtwtypes.h \
+  ../primitives/tmwtypes.h \
+  /usr/lib/llvm-14/lib/clang/14.0.0/include/limits.h \
+  /usr/include/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
+  /usr/include/features.h \
+  /usr/include/features-time64.h \
+  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+  /usr/include/x86_64-linux-gnu/bits/timesize.h \
+  /usr/include/stdc-predef.h \
+  /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+  /usr/include/x86_64-linux-gnu/bits/long-double.h \
+  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+  /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/local_lim.h \
+  /usr/include/linux/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
+  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min.h \
+  /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
+  /usr/lib/llvm-14/lib/clang/14.0.0/include/stdbool.h \
+  /usr/lib/llvm-14/lib/clang/14.0.0/include/float.h \
+  /usr/lib/llvm-14/lib/clang/14.0.0/include/stddef.h \
+  /usr/lib/llvm-14/lib/clang/14.0.0/include/__stddef_max_align_t.h \
+  ../primitives/simstruc_types.h \
+  ../primitives/sl_types_def.h \
+  ../primitives/rtw_matlogging.h \
+  ../primitives/rtw_extmode.h \
+  ../primitives/rtw_continuous.h \
+  ../primitives/rtw_solver.h \
+  ../primitives/sysran_types.h \
+  ../primitives/sl_sample_time_defs.h \
+  ../primitives/rt_nonfinite.h
+
+CMakeFiles/basic_agent.dir/primitives/rtGetNaN.c.o: ../primitives/rtGetNaN.c \
+  ../primitives/rtGetNaN.h \
+  ../primitives/rtwtypes.h \
+  ../primitives/tmwtypes.h \
+  /usr/lib/llvm-14/lib/clang/14.0.0/include/limits.h \
+  /usr/include/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
+  /usr/include/features.h \
+  /usr/include/features-time64.h \
+  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+  /usr/include/x86_64-linux-gnu/bits/timesize.h \
+  /usr/include/stdc-predef.h \
+  /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+  /usr/include/x86_64-linux-gnu/bits/long-double.h \
+  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+  /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/local_lim.h \
+  /usr/include/linux/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
+  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min.h \
+  /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
+  /usr/lib/llvm-14/lib/clang/14.0.0/include/stdbool.h \
+  /usr/lib/llvm-14/lib/clang/14.0.0/include/float.h \
+  /usr/lib/llvm-14/lib/clang/14.0.0/include/stddef.h \
+  /usr/lib/llvm-14/lib/clang/14.0.0/include/__stddef_max_align_t.h \
+  ../primitives/simstruc_types.h \
+  ../primitives/sl_types_def.h \
+  ../primitives/rtw_matlogging.h \
+  ../primitives/rtw_extmode.h \
+  ../primitives/rtw_continuous.h \
+  ../primitives/rtw_solver.h \
+  ../primitives/sysran_types.h \
+  ../primitives/sl_sample_time_defs.h \
+  ../primitives/rt_nonfinite.h
+
+CMakeFiles/basic_agent.dir/primitives/rt_nonfinite.c.o: ../primitives/rt_nonfinite.c \
+  ../primitives/rt_nonfinite.h \
+  ../primitives/rtwtypes.h \
+  ../primitives/tmwtypes.h \
+  /usr/lib/llvm-14/lib/clang/14.0.0/include/limits.h \
+  /usr/include/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
+  /usr/include/features.h \
+  /usr/include/features-time64.h \
+  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
+  /usr/include/x86_64-linux-gnu/bits/timesize.h \
+  /usr/include/stdc-predef.h \
+  /usr/include/x86_64-linux-gnu/sys/cdefs.h \
+  /usr/include/x86_64-linux-gnu/bits/long-double.h \
+  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
+  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
+  /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/local_lim.h \
+  /usr/include/linux/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
+  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min.h \
+  /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
+  /usr/lib/llvm-14/lib/clang/14.0.0/include/stdbool.h \
+  /usr/lib/llvm-14/lib/clang/14.0.0/include/float.h \
+  /usr/lib/llvm-14/lib/clang/14.0.0/include/stddef.h \
+  /usr/lib/llvm-14/lib/clang/14.0.0/include/__stddef_max_align_t.h \
+  ../primitives/simstruc_types.h \
+  ../primitives/sl_types_def.h \
+  ../primitives/rtw_matlogging.h \
+  ../primitives/rtw_extmode.h \
+  ../primitives/rtw_continuous.h \
+  ../primitives/rtw_solver.h \
+  ../primitives/sysran_types.h \
+  ../primitives/sl_sample_time_defs.h \
+  ../primitives/rtGetInf.h \
+  ../primitives/rtGetNaN.h
+
 CMakeFiles/basic_agent.dir/starting_point.cc.o: ../starting_point.cc \
   /usr/include/stdio.h \
   /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
@@ -550,6 +737,27 @@ CMakeFiles/basic_agent.dir/starting_point.cc.o: ../starting_point.cc \
   /usr/include/x86_64-linux-gnu/bits/statx-generic.h \
   /usr/include/x86_64-linux-gnu/bits/types/struct_statx_timestamp.h \
   /usr/include/x86_64-linux-gnu/bits/types/struct_statx.h \
+  ../primitives/primitives.h \
+  ../primitives/rtwtypes.h \
+  ../primitives/tmwtypes.h \
+  /usr/lib/llvm-14/lib/clang/14.0.0/include/limits.h \
+  /usr/include/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/local_lim.h \
+  /usr/include/linux/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
+  /usr/lib/llvm-14/lib/clang/14.0.0/include/float.h \
+  ../primitives/simstruc_types.h \
+  ../primitives/sl_types_def.h \
+  ../primitives/rtw_matlogging.h \
+  ../primitives/rtw_extmode.h \
+  ../primitives/rtw_continuous.h \
+  ../primitives/rtw_solver.h \
+  ../primitives/sysran_types.h \
+  ../primitives/sl_sample_time_defs.h \
+  /usr/include/c++/11/stdlib.h \
   /usr/include/signal.h \
   /usr/include/x86_64-linux-gnu/bits/signum-generic.h \
   /usr/include/x86_64-linux-gnu/bits/signum-arch.h \
@@ -614,17 +822,55 @@ CMakeFiles/basic_agent.dir/starting_point.cc.o: ../starting_point.cc \
 
 /usr/include/x86_64-linux-gnu/bits/siginfo-arch.h:
 
-/usr/include/x86_64-linux-gnu/bits/ss_flags.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/sig_atomic_t.h:
-
 /usr/include/x86_64-linux-gnu/bits/signum-generic.h:
+
+/usr/include/c++/11/stdlib.h:
+
+/usr/include/x86_64-linux-gnu/bits/xopen_lim.h:
 
 ../lib/interfaces_data_structs.h:
 
 /usr/include/x86_64-linux-gnu/bits/iscanonical.h:
 
+/usr/include/c++/11/math.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/sigval_t.h:
+
+../starting_point.cc:
+
+../primitives/rtGetNaN.h:
+
+../primitives/rtGetInf.h:
+
+../primitives/rtGetInf.c:
+
 /usr/include/x86_64-linux-gnu/bits/mathcalls.h:
+
+/usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h:
+
+/usr/include/x86_64-linux-gnu/bits/fp-logb.h:
+
+/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
+
+/usr/include/x86_64-linux-gnu/bits/math-vector.h:
+
+../primitives/rt_nonfinite.h:
+
+../primitives/rtw_extmode.h:
+
+../primitives/rtw_matlogging.h:
+
+../primitives/sl_types_def.h:
+
+/usr/include/x86_64-linux-gnu/bits/ss_flags.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/sig_atomic_t.h:
+
+../primitives/simstruc_types.h:
+
+/usr/lib/llvm-14/lib/clang/14.0.0/include/stdbool.h:
+
+/usr/include/x86_64-linux-gnu/bits/posix2_lim.h:
 
 /usr/include/c++/11/bits/locale_classes.h:
 
@@ -672,13 +918,9 @@ CMakeFiles/basic_agent.dir/starting_point.cc.o: ../starting_point.cc \
 
 /usr/include/c++/11/bits/ios_base.h:
 
-/usr/include/x86_64-linux-gnu/bits/fp-logb.h:
-
 /usr/include/x86_64-linux-gnu/bits/endian.h:
 
 /usr/include/x86_64-linux-gnu/gnu/stubs.h:
-
-/usr/include/c++/11/bits/basic_string.h:
 
 /usr/include/x86_64-linux-gnu/bits/locale.h:
 
@@ -692,6 +934,10 @@ CMakeFiles/basic_agent.dir/starting_point.cc.o: ../starting_point.cc \
 
 /usr/include/x86_64-linux-gnu/bits/types.h:
 
+/usr/include/c++/11/cmath:
+
+/usr/include/c++/11/bits/allocator.h:
+
 /usr/include/c++/11/bits/char_traits.h:
 
 /usr/include/asm-generic/errno-base.h:
@@ -699,6 +945,10 @@ CMakeFiles/basic_agent.dir/starting_point.cc.o: ../starting_point.cc \
 /usr/include/c++/11/ext/atomicity.h:
 
 /usr/include/c++/11/bits/stl_pair.h:
+
+/usr/include/math.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
 
 /usr/include/c++/11/bits/stl_tempbuf.h:
 
@@ -722,6 +972,8 @@ CMakeFiles/basic_agent.dir/starting_point.cc.o: ../starting_point.cc \
 
 /usr/include/c++/11/bits/stringfwd.h:
 
+../primitives/rtGetNaN.c:
+
 /usr/include/x86_64-linux-gnu/bits/types/FILE.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/clock_t.h:
@@ -733,6 +985,12 @@ CMakeFiles/basic_agent.dir/starting_point.cc.o: ../starting_point.cc \
 /usr/include/x86_64-linux-gnu/bits/floatn-common.h:
 
 /usr/lib/llvm-14/lib/clang/14.0.0/include/stddef.h:
+
+/usr/include/c++/11/bits/basic_string.h:
+
+/usr/include/linux/limits.h:
+
+../primitives/rt_nonfinite.c:
 
 /usr/include/c++/11/bits/exception_ptr.h:
 
@@ -784,6 +1042,10 @@ CMakeFiles/basic_agent.dir/starting_point.cc.o: ../starting_point.cc \
 
 /usr/include/c++/11/new:
 
+/usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h:
+
+/usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h:
+
 /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
 
 ../log/logvars.h:
@@ -814,11 +1076,15 @@ CMakeFiles/basic_agent.dir/starting_point.cc.o: ../starting_point.cc \
 
 /usr/include/c++/11/cwchar:
 
+../primitives/primitives.c:
+
 /usr/include/linux/errno.h:
 
 /usr/include/c++/11/debug/debug.h:
 
 /usr/include/features-time64.h:
+
+/usr/lib/llvm-14/lib/clang/14.0.0/include/float.h:
 
 /usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
 
@@ -868,7 +1134,11 @@ CMakeFiles/basic_agent.dir/starting_point.cc.o: ../starting_point.cc \
 
 /usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
 
+../primitives/rtw_continuous.h:
+
 /usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
+
+../primitives/tmwtypes.h:
 
 /usr/include/x86_64-linux-gnu/bits/typesizes.h:
 
@@ -882,11 +1152,9 @@ CMakeFiles/basic_agent.dir/starting_point.cc.o: ../starting_point.cc \
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h:
 
-/usr/include/c++/11/bits/allocator.h:
-
-/usr/include/c++/11/cmath:
-
 /usr/include/c++/11/bits/stl_construct.h:
+
+../primitives/rtw_solver.h:
 
 /usr/include/ctype.h:
 
@@ -900,6 +1168,8 @@ CMakeFiles/basic_agent.dir/starting_point.cc.o: ../starting_point.cc \
 
 /usr/include/c++/11/system_error:
 
+../primitives/rtwtypes.h:
+
 /usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
 
 /usr/include/x86_64-linux-gnu/sys/stat.h:
@@ -909,6 +1179,8 @@ CMakeFiles/basic_agent.dir/starting_point.cc.o: ../starting_point.cc \
 /usr/include/c++/11/bits/hash_bytes.h:
 
 /usr/include/x86_64-linux-gnu/bits/wchar.h:
+
+/usr/include/x86_64-linux-gnu/bits/local_lim.h:
 
 /usr/include/x86_64-linux-gnu/bits/floatn.h:
 
@@ -930,17 +1202,17 @@ CMakeFiles/basic_agent.dir/starting_point.cc.o: ../starting_point.cc \
 
 /usr/include/c++/11/iosfwd:
 
+../primitives/sl_sample_time_defs.h:
+
 /usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
+
+/usr/include/x86_64-linux-gnu/bits/uio_lim.h:
 
 /usr/include/c++/11/string:
 
 /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h:
 
 /usr/include/c++/11/bits/ostream_insert.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/sigval_t.h:
-
-../starting_point.cc:
 
 /usr/include/c++/11/bits/memoryfwd.h:
 
@@ -960,11 +1232,13 @@ CMakeFiles/basic_agent.dir/starting_point.cc.o: ../starting_point.cc \
 
 /usr/include/x86_64-linux-gnu/bits/struct_stat.h:
 
+/usr/include/x86_64-linux-gnu/bits/fp-fast.h:
+
+/usr/include/c++/11/iostream:
+
 /usr/include/stdlib.h:
 
 /usr/include/x86_64-linux-gnu/bits/waitflags.h:
-
-/usr/include/c++/11/math.h:
 
 /usr/include/x86_64-linux-gnu/sys/types.h:
 
@@ -1016,17 +1290,11 @@ CMakeFiles/basic_agent.dir/starting_point.cc.o: ../starting_point.cc \
 
 /usr/include/x86_64-linux-gnu/bits/types/error_t.h:
 
-/usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h:
-
 /usr/include/c++/11/bits/charconv.h:
 
 /usr/include/c++/11/bits/basic_string.tcc:
 
 /usr/include/c++/11/bits/locale_classes.tcc:
-
-/usr/include/c++/11/iostream:
-
-/usr/include/x86_64-linux-gnu/bits/fp-fast.h:
 
 /usr/include/c++/11/ios:
 
@@ -1082,6 +1350,8 @@ CMakeFiles/basic_agent.dir/starting_point.cc.o: ../starting_point.cc \
 
 /usr/include/c++/11/bits/fstream.tcc:
 
+/usr/include/limits.h:
+
 /usr/include/c++/11/bits/stl_relops.h:
 
 /usr/include/c++/11/thread:
@@ -1114,7 +1384,7 @@ CMakeFiles/basic_agent.dir/starting_point.cc.o: ../starting_point.cc \
 
 /usr/include/c++/11/bits/stl_algo.h:
 
-/usr/include/x86_64-linux-gnu/bits/math-vector.h:
+../primitives/sysran_types.h:
 
 /usr/include/c++/11/bits/algorithmfwd.h:
 
@@ -1146,13 +1416,13 @@ CMakeFiles/basic_agent.dir/starting_point.cc.o: ../starting_point.cc \
 
 /usr/include/asm-generic/bitsperlong.h:
 
+/usr/include/x86_64-linux-gnu/bits/posix1_lim.h:
+
 /usr/include/linux/posix_types.h:
 
 /usr/include/c++/11/cwctype:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_statx_timestamp.h:
-
-/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
 
 /usr/include/x86_64-linux-gnu/asm/posix_types.h:
 
@@ -1160,10 +1430,8 @@ CMakeFiles/basic_agent.dir/starting_point.cc.o: ../starting_point.cc \
 
 ../log/screen_print.c:
 
-/usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
+../primitives/primitives.h:
 
-/usr/include/math.h:
+/usr/lib/llvm-14/lib/clang/14.0.0/include/limits.h:
 
-/usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h:
-
-/usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h:
+/usr/include/x86_64-linux-gnu/bits/pthread_stack_min.h:

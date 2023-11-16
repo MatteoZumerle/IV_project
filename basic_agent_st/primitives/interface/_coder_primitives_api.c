@@ -40,7 +40,7 @@ static real_T c_emlrt_marshallIn(const emlrtStack *sp, const mxArray *src,
 static real_T emlrt_marshallIn(const emlrtStack *sp, const mxArray *nullptr,
                                const char_T *identifier);
 
-static const mxArray *emlrt_marshallOut(const real_T u[5]);
+static const mxArray *emlrt_marshallOut(const real_T u[6]);
 
 /* Function Definitions */
 static real_T b_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u,
@@ -87,10 +87,10 @@ static real_T emlrt_marshallIn(const emlrtStack *sp, const mxArray *nullptr,
   return y;
 }
 
-static const mxArray *emlrt_marshallOut(const real_T u[5])
+static const mxArray *emlrt_marshallOut(const real_T u[6])
 {
   static const int32_T iv[2] = {0, 0};
-  static const int32_T iv1[2] = {1, 5};
+  static const int32_T iv1[2] = {1, 6};
   const mxArray *m;
   const mxArray *y;
   y = NULL;
@@ -109,8 +109,8 @@ void PassingPrimitive_api(const mxArray *const prhs[7], int32_T nlhs,
       NULL, /* tls */
       NULL  /* prev */
   };
-  real_T(*m1)[5];
-  real_T(*m2)[5];
+  real_T(*m1)[6];
+  real_T(*m2)[6];
   real_T Tmax;
   real_T Tmin;
   real_T a0;
@@ -119,8 +119,8 @@ void PassingPrimitive_api(const mxArray *const prhs[7], int32_T nlhs,
   real_T sf;
   real_T v0;
   st.tls = emlrtRootTLSGlobal;
-  m1 = (real_T(*)[5])mxMalloc(sizeof(real_T[5]));
-  m2 = (real_T(*)[5])mxMalloc(sizeof(real_T[5]));
+  m1 = (real_T(*)[6])mxMalloc(sizeof(real_T[6]));
+  m2 = (real_T(*)[6])mxMalloc(sizeof(real_T[6]));
   /* Marshall function inputs */
   a0 = emlrt_marshallIn(&st, emlrtAliasP(prhs[0]), "a0");
   v0 = emlrt_marshallIn(&st, emlrtAliasP(prhs[1]), "v0");
@@ -138,6 +138,33 @@ void PassingPrimitive_api(const mxArray *const prhs[7], int32_T nlhs,
   }
 }
 
+void PassingPrimitivej0_api(const mxArray *const prhs[5], const mxArray **plhs)
+{
+  emlrtStack st = {
+      NULL, /* site */
+      NULL, /* tls */
+      NULL  /* prev */
+  };
+  real_T(*m1)[6];
+  real_T a0;
+  real_T b_vmax;
+  real_T b_vmin;
+  real_T sf;
+  real_T v0;
+  st.tls = emlrtRootTLSGlobal;
+  m1 = (real_T(*)[6])mxMalloc(sizeof(real_T[6]));
+  /* Marshall function inputs */
+  a0 = emlrt_marshallIn(&st, emlrtAliasP(prhs[0]), "a0");
+  v0 = emlrt_marshallIn(&st, emlrtAliasP(prhs[1]), "v0");
+  sf = emlrt_marshallIn(&st, emlrtAliasP(prhs[2]), "sf");
+  b_vmin = emlrt_marshallIn(&st, emlrtAliasP(prhs[3]), "vmin");
+  b_vmax = emlrt_marshallIn(&st, emlrtAliasP(prhs[4]), "vmax");
+  /* Invoke the target function */
+  PassingPrimitivej0(a0, v0, sf, b_vmin, b_vmax, *m1);
+  /* Marshall function outputs */
+  *plhs = emlrt_marshallOut(*m1);
+}
+
 void StoppingPrimitive_api(const mxArray *const prhs[3], int32_T nlhs,
                            const mxArray *plhs[3])
 {
@@ -146,14 +173,14 @@ void StoppingPrimitive_api(const mxArray *const prhs[3], int32_T nlhs,
       NULL, /* tls */
       NULL  /* prev */
   };
-  real_T(*coeffs)[5];
+  real_T(*coeffs)[6];
   real_T a0;
   real_T s_max;
   real_T sf;
   real_T tf;
   real_T v0;
   st.tls = emlrtRootTLSGlobal;
-  coeffs = (real_T(*)[5])mxMalloc(sizeof(real_T[5]));
+  coeffs = (real_T(*)[6])mxMalloc(sizeof(real_T[6]));
   /* Marshall function inputs */
   a0 = emlrt_marshallIn(&st, emlrtAliasP(prhs[0]), "a0");
   v0 = emlrt_marshallIn(&st, emlrtAliasP(prhs[1]), "v0");
@@ -162,6 +189,36 @@ void StoppingPrimitive_api(const mxArray *const prhs[3], int32_T nlhs,
   StoppingPrimitive(a0, v0, sf, *coeffs, &s_max, &tf);
   /* Marshall function outputs */
   plhs[0] = emlrt_marshallOut(*coeffs);
+  if (nlhs > 1) {
+    plhs[1] = b_emlrt_marshallOut(s_max);
+  }
+  if (nlhs > 2) {
+    plhs[2] = b_emlrt_marshallOut(tf);
+  }
+}
+
+void StoppingPrimitivej0_api(const mxArray *const prhs[2], int32_T nlhs,
+                             const mxArray *plhs[3])
+{
+  emlrtStack st = {
+      NULL, /* site */
+      NULL, /* tls */
+      NULL  /* prev */
+  };
+  real_T(*m)[6];
+  real_T a0;
+  real_T s_max;
+  real_T tf;
+  real_T v0;
+  st.tls = emlrtRootTLSGlobal;
+  m = (real_T(*)[6])mxMalloc(sizeof(real_T[6]));
+  /* Marshall function inputs */
+  a0 = emlrt_marshallIn(&st, emlrtAliasP(prhs[0]), "a0");
+  v0 = emlrt_marshallIn(&st, emlrtAliasP(prhs[1]), "v0");
+  /* Invoke the target function */
+  StoppingPrimitivej0(a0, v0, *m, &s_max, &tf);
+  /* Marshall function outputs */
+  plhs[0] = emlrt_marshallOut(*m);
   if (nlhs > 1) {
     plhs[1] = b_emlrt_marshallOut(s_max);
   }

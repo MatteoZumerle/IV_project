@@ -24,10 +24,16 @@ extern "C" {
 /* Function Declarations */
 extern void PassingPrimitive(double a0, double v0, double sf, double b_vmin,
                              double b_vmax, double Tmin, double Tmax,
-                             double m1[5], double m2[5]);
+                             double m1[6], double m2[6]);
 
-extern void StoppingPrimitive(double a0, double v0, double sf, double coeffs[5],
+extern void PassingPrimitivej0(double a0, double v0, double sf, double b_vmin,
+                               double b_vmax, double m1[6]);
+
+extern void StoppingPrimitive(double a0, double v0, double sf, double coeffs[6],
                               double *s_max, double *tf);
+
+extern void StoppingPrimitivej0(double a0, double v0, double m[6],
+                                double *s_max, double *tf);
 
 extern void primitives_initialize(void);
 

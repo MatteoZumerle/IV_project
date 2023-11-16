@@ -51,7 +51,11 @@ extern int main(int argc, char **argv);
 
 extern void main_PassingPrimitive(void);
 
+extern void main_PassingPrimitivej0(void);
+
 extern void main_StoppingPrimitive(void);
+
+extern void main_StoppingPrimitivej0(void);
 
 #ifdef __cplusplus
 }

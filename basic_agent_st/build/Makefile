@@ -177,6 +177,102 @@ log/screen_print.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/basic_agent.dir/build.make CMakeFiles/basic_agent.dir/log/screen_print.c.s
 .PHONY : log/screen_print.c.s
 
+primitives/primitives.o: primitives/primitives.c.o
+.PHONY : primitives/primitives.o
+
+# target to build an object file
+primitives/primitives.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/basic_agent.dir/build.make CMakeFiles/basic_agent.dir/primitives/primitives.c.o
+.PHONY : primitives/primitives.c.o
+
+primitives/primitives.i: primitives/primitives.c.i
+.PHONY : primitives/primitives.i
+
+# target to preprocess a source file
+primitives/primitives.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/basic_agent.dir/build.make CMakeFiles/basic_agent.dir/primitives/primitives.c.i
+.PHONY : primitives/primitives.c.i
+
+primitives/primitives.s: primitives/primitives.c.s
+.PHONY : primitives/primitives.s
+
+# target to generate assembly for a file
+primitives/primitives.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/basic_agent.dir/build.make CMakeFiles/basic_agent.dir/primitives/primitives.c.s
+.PHONY : primitives/primitives.c.s
+
+primitives/rtGetInf.o: primitives/rtGetInf.c.o
+.PHONY : primitives/rtGetInf.o
+
+# target to build an object file
+primitives/rtGetInf.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/basic_agent.dir/build.make CMakeFiles/basic_agent.dir/primitives/rtGetInf.c.o
+.PHONY : primitives/rtGetInf.c.o
+
+primitives/rtGetInf.i: primitives/rtGetInf.c.i
+.PHONY : primitives/rtGetInf.i
+
+# target to preprocess a source file
+primitives/rtGetInf.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/basic_agent.dir/build.make CMakeFiles/basic_agent.dir/primitives/rtGetInf.c.i
+.PHONY : primitives/rtGetInf.c.i
+
+primitives/rtGetInf.s: primitives/rtGetInf.c.s
+.PHONY : primitives/rtGetInf.s
+
+# target to generate assembly for a file
+primitives/rtGetInf.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/basic_agent.dir/build.make CMakeFiles/basic_agent.dir/primitives/rtGetInf.c.s
+.PHONY : primitives/rtGetInf.c.s
+
+primitives/rtGetNaN.o: primitives/rtGetNaN.c.o
+.PHONY : primitives/rtGetNaN.o
+
+# target to build an object file
+primitives/rtGetNaN.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/basic_agent.dir/build.make CMakeFiles/basic_agent.dir/primitives/rtGetNaN.c.o
+.PHONY : primitives/rtGetNaN.c.o
+
+primitives/rtGetNaN.i: primitives/rtGetNaN.c.i
+.PHONY : primitives/rtGetNaN.i
+
+# target to preprocess a source file
+primitives/rtGetNaN.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/basic_agent.dir/build.make CMakeFiles/basic_agent.dir/primitives/rtGetNaN.c.i
+.PHONY : primitives/rtGetNaN.c.i
+
+primitives/rtGetNaN.s: primitives/rtGetNaN.c.s
+.PHONY : primitives/rtGetNaN.s
+
+# target to generate assembly for a file
+primitives/rtGetNaN.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/basic_agent.dir/build.make CMakeFiles/basic_agent.dir/primitives/rtGetNaN.c.s
+.PHONY : primitives/rtGetNaN.c.s
+
+primitives/rt_nonfinite.o: primitives/rt_nonfinite.c.o
+.PHONY : primitives/rt_nonfinite.o
+
+# target to build an object file
+primitives/rt_nonfinite.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/basic_agent.dir/build.make CMakeFiles/basic_agent.dir/primitives/rt_nonfinite.c.o
+.PHONY : primitives/rt_nonfinite.c.o
+
+primitives/rt_nonfinite.i: primitives/rt_nonfinite.c.i
+.PHONY : primitives/rt_nonfinite.i
+
+# target to preprocess a source file
+primitives/rt_nonfinite.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/basic_agent.dir/build.make CMakeFiles/basic_agent.dir/primitives/rt_nonfinite.c.i
+.PHONY : primitives/rt_nonfinite.c.i
+
+primitives/rt_nonfinite.s: primitives/rt_nonfinite.c.s
+.PHONY : primitives/rt_nonfinite.s
+
+# target to generate assembly for a file
+primitives/rt_nonfinite.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/basic_agent.dir/build.make CMakeFiles/basic_agent.dir/primitives/rt_nonfinite.c.s
+.PHONY : primitives/rt_nonfinite.c.s
+
 starting_point.o: starting_point.cc.o
 .PHONY : starting_point.o
 
@@ -216,6 +312,18 @@ help:
 	@echo "... log/screen_print.o"
 	@echo "... log/screen_print.i"
 	@echo "... log/screen_print.s"
+	@echo "... primitives/primitives.o"
+	@echo "... primitives/primitives.i"
+	@echo "... primitives/primitives.s"
+	@echo "... primitives/rtGetInf.o"
+	@echo "... primitives/rtGetInf.i"
+	@echo "... primitives/rtGetInf.s"
+	@echo "... primitives/rtGetNaN.o"
+	@echo "... primitives/rtGetNaN.i"
+	@echo "... primitives/rtGetNaN.s"
+	@echo "... primitives/rt_nonfinite.o"
+	@echo "... primitives/rt_nonfinite.i"
+	@echo "... primitives/rt_nonfinite.s"
 	@echo "... starting_point.o"
 	@echo "... starting_point.i"
 	@echo "... starting_point.s"

@@ -30,8 +30,16 @@ emlrtCTX mexFunctionCreateRootTLS(void);
 void unsafe_PassingPrimitive_mexFunction(int32_T nlhs, mxArray *plhs[2],
                                          int32_T nrhs, const mxArray *prhs[7]);
 
+void unsafe_PassingPrimitivej0_mexFunction(int32_T nlhs, mxArray *plhs[1],
+                                           int32_T nrhs,
+                                           const mxArray *prhs[5]);
+
 void unsafe_StoppingPrimitive_mexFunction(int32_T nlhs, mxArray *plhs[3],
                                           int32_T nrhs, const mxArray *prhs[3]);
+
+void unsafe_StoppingPrimitivej0_mexFunction(int32_T nlhs, mxArray *plhs[3],
+                                            int32_T nrhs,
+                                            const mxArray *prhs[2]);
 
 #ifdef __cplusplus
 }
