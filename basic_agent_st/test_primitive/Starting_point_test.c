@@ -1,5 +1,5 @@
 //
-// Created by Gastone Pietro Rosati Papini on 10/08/22.
+// Created by Matteo Zumerle on 10/08/22.
 //cd build
 //cmake ..
 //make

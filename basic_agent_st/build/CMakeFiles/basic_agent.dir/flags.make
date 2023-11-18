@@ -5,13 +5,13 @@
 # compile CXX with /usr/bin/clang++
 C_DEFINES = -DLOG_INTERNAL
 
-C_INCLUDES = -I"/home/matteo/Documenti/Intelligent vehicles/Project/basic_agent_st/primitives" -I"/home/matteo/Documenti/Intelligent vehicles/Project/basic_agent_st/matlab" -I"/home/matteo/Documenti/Intelligent vehicles/Project/basic_agent_st/lib" -I"/home/matteo/Documenti/Intelligent vehicles/Project/basic_agent_st/log"
+C_INCLUDES = -I"/home/matteo/Documenti/Intelligent vehicles/Project_local/basic_agent_st/primitives" -I"/home/matteo/Documenti/Intelligent vehicles/Project_local/basic_agent_st/matlab" -I"/home/matteo/Documenti/Intelligent vehicles/Project_local/basic_agent_st/lib" -I"/home/matteo/Documenti/Intelligent vehicles/Project_local/basic_agent_st/log"
 
 C_FLAGS =   -O2 -DNOT_INLINED -DSERVER
 
 CXX_DEFINES = -DLOG_INTERNAL
 
-CXX_INCLUDES = -I"/home/matteo/Documenti/Intelligent vehicles/Project/basic_agent_st/primitives" -I"/home/matteo/Documenti/Intelligent vehicles/Project/basic_agent_st/matlab" -I"/home/matteo/Documenti/Intelligent vehicles/Project/basic_agent_st/lib" -I"/home/matteo/Documenti/Intelligent vehicles/Project/basic_agent_st/log"
+CXX_INCLUDES = -I"/home/matteo/Documenti/Intelligent vehicles/Project_local/basic_agent_st/primitives" -I"/home/matteo/Documenti/Intelligent vehicles/Project_local/basic_agent_st/matlab" -I"/home/matteo/Documenti/Intelligent vehicles/Project_local/basic_agent_st/lib" -I"/home/matteo/Documenti/Intelligent vehicles/Project_local/basic_agent_st/log"
 
 CXX_FLAGS =   -O2 -DNOT_INLINED -DSERVER -std=gnu++11
 
