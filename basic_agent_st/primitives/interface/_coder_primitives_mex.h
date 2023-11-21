@@ -41,6 +41,9 @@ void unsafe_StoppingPrimitivej0_mexFunction(int32_T nlhs, mxArray *plhs[3],
                                             int32_T nrhs,
                                             const mxArray *prhs[2]);
 
+void unsafe_v_opt_fun_mexFunction(int32_T nlhs, mxArray *plhs[1], int32_T nrhs,
+                                  const mxArray *prhs[7]);
+
 #ifdef __cplusplus
 }
 #endif

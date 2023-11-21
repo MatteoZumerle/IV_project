@@ -39,7 +39,7 @@ void PassingPrimitivej0(real_T a0, real_T v0, real_T sf, real_T b_vmin,
 
 void PassingPrimitivej0_api(const mxArray *const prhs[5], const mxArray **plhs);
 
-void StoppingPrimitive(real_T a0, real_T v0, real_T sf, real_T coeffs[6],
+void StoppingPrimitive(real_T v0, real_T a0, real_T sf, real_T coeffs[6],
                        real_T *s_max, real_T *tf);
 
 void StoppingPrimitive_api(const mxArray *const prhs[3], int32_T nlhs,
@@ -60,6 +60,11 @@ void primitives_terminate(void);
 void primitives_xil_shutdown(void);
 
 void primitives_xil_terminate(void);
+
+real_T v_opt_fun(real_T t, real_T v0, real_T a0, real_T sf, real_T vf,
+                 real_T af, real_T T);
+
+void v_opt_fun_api(const mxArray *const prhs[7], const mxArray **plhs);
 
 #ifdef __cplusplus
 }

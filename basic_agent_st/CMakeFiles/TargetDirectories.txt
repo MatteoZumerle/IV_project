@@ -1,3 +1,0 @@
-/home/matteo/Documenti/Intelligent vehicles/Project/basic_agent_st/CMakeFiles/basic_agent.dir
-/home/matteo/Documenti/Intelligent vehicles/Project/basic_agent_st/CMakeFiles/edit_cache.dir
-/home/matteo/Documenti/Intelligent vehicles/Project/basic_agent_st/CMakeFiles/rebuild_cache.dir

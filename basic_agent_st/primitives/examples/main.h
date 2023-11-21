@@ -57,6 +57,8 @@ extern void main_StoppingPrimitive(void);
 
 extern void main_StoppingPrimitivej0(void);
 
+extern void main_v_opt_fun(void);
+
 #ifdef __cplusplus
 }
 #endif

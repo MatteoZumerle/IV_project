@@ -60,6 +60,7 @@ You can call entry-point functions multiple times. */
   main_PassingPrimitivej0();
   main_StoppingPrimitive();
   main_StoppingPrimitivej0();
+  main_v_opt_fun();
   /* Terminate the application.
 You do not need to do this more than one time. */
   primitives_terminate();
@@ -91,13 +92,13 @@ void main_PassingPrimitivej0(void)
 void main_StoppingPrimitive(void)
 {
   double coeffs[6];
-  double a0_tmp;
   double s_max;
   double tf;
+  double v0_tmp;
   /* Initialize function 'StoppingPrimitive' input arguments. */
-  a0_tmp = argInit_real_T();
+  v0_tmp = argInit_real_T();
   /* Call the entry-point 'StoppingPrimitive'. */
-  StoppingPrimitive(a0_tmp, a0_tmp, a0_tmp, coeffs, &s_max, &tf);
+  StoppingPrimitive(v0_tmp, v0_tmp, v0_tmp, coeffs, &s_max, &tf);
 }
 
 void main_StoppingPrimitivej0(void)
@@ -110,6 +111,15 @@ void main_StoppingPrimitivej0(void)
   a0_tmp = argInit_real_T();
   /* Call the entry-point 'StoppingPrimitivej0'. */
   StoppingPrimitivej0(a0_tmp, a0_tmp, m, &s_max, &tf);
+}
+
+void main_v_opt_fun(void)
+{
+  double t_tmp;
+  /* Initialize function 'v_opt_fun' input arguments. */
+  t_tmp = argInit_real_T();
+  /* Call the entry-point 'v_opt_fun'. */
+  t_tmp = v_opt_fun(t_tmp, t_tmp, t_tmp, t_tmp, t_tmp, t_tmp, t_tmp);
 }
 
 /* End of code generation (main.c) */

@@ -29,7 +29,7 @@ extern void PassingPrimitive(double a0, double v0, double sf, double b_vmin,
 extern void PassingPrimitivej0(double a0, double v0, double sf, double b_vmin,
                                double b_vmax, double m1[6]);
 
-extern void StoppingPrimitive(double a0, double v0, double sf, double coeffs[6],
+extern void StoppingPrimitive(double v0, double a0, double sf, double coeffs[6],
                               double *s_max, double *tf);
 
 extern void StoppingPrimitivej0(double a0, double v0, double m[6],
@@ -38,6 +38,9 @@ extern void StoppingPrimitivej0(double a0, double v0, double m[6],
 extern void primitives_initialize(void);
 
 extern void primitives_terminate(void);
+
+extern double v_opt_fun(double t, double v0, double a0, double sf, double vf,
+                        double af, double T);
 
 #ifdef __cplusplus
 }

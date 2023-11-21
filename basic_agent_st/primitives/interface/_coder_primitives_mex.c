@@ -17,9 +17,9 @@
 void mexFunction(int32_T nlhs, mxArray *plhs[], int32_T nrhs,
                  const mxArray *prhs[])
 {
-  static const char_T *emlrtEntryPoints[4] = {
+  static const char_T *emlrtEntryPoints[5] = {
       "PassingPrimitive", "PassingPrimitivej0", "StoppingPrimitive",
-      "StoppingPrimitivej0"};
+      "StoppingPrimitivej0", "v_opt_fun"};
   emlrtStack st = {
       NULL, /* site */
       NULL, /* tls */
@@ -31,7 +31,7 @@ void mexFunction(int32_T nlhs, mxArray *plhs[], int32_T nrhs,
   st.tls = emlrtRootTLSGlobal;
   /* Dispatch the entry-point. */
   switch (emlrtGetEntryPointIndexR2016a(
-      &st, nrhs, &prhs[0], (const char_T **)&emlrtEntryPoints[0], 4)) {
+      &st, nrhs, &prhs[0], (const char_T **)&emlrtEntryPoints[0], 5)) {
   case 0:
     unsafe_PassingPrimitive_mexFunction(nlhs, plhs, nrhs - 1, &prhs[1]);
     break;
@@ -43,6 +43,9 @@ void mexFunction(int32_T nlhs, mxArray *plhs[], int32_T nrhs,
     break;
   case 3:
     unsafe_StoppingPrimitivej0_mexFunction(nlhs, plhs, nrhs - 1, &prhs[1]);
+    break;
+  case 4:
+    unsafe_v_opt_fun_mexFunction(nlhs, plhs, nrhs - 1, &prhs[1]);
     break;
   }
   /* Module termination. */
@@ -190,6 +193,36 @@ void unsafe_StoppingPrimitivej0_mexFunction(int32_T nlhs, mxArray *plhs[3],
     i = nlhs;
   }
   emlrtReturnArrays(i, &plhs[0], &outputs[0]);
+}
+
+void unsafe_v_opt_fun_mexFunction(int32_T nlhs, mxArray *plhs[1], int32_T nrhs,
+                                  const mxArray *prhs[7])
+{
+  emlrtStack st = {
+      NULL, /* site */
+      NULL, /* tls */
+      NULL  /* prev */
+  };
+  const mxArray *b_prhs[7];
+  const mxArray *outputs;
+  int32_T i;
+  st.tls = emlrtRootTLSGlobal;
+  /* Check for proper number of arguments. */
+  if (nrhs != 7) {
+    emlrtErrMsgIdAndTxt(&st, "EMLRT:runTime:WrongNumberOfInputs", 5, 12, 7, 4,
+                        9, "v_opt_fun");
+  }
+  if (nlhs > 1) {
+    emlrtErrMsgIdAndTxt(&st, "EMLRT:runTime:TooManyOutputArguments", 3, 4, 9,
+                        "v_opt_fun");
+  }
+  /* Call the function. */
+  for (i = 0; i < 7; i++) {
+    b_prhs[i] = prhs[i];
+  }
+  v_opt_fun_api(b_prhs, &outputs);
+  /* Copy over outputs to the caller. */
+  emlrtReturnArrays(1, &plhs[0], &outputs);
 }
 
 /* End of code generation (_coder_primitives_mex.c) */

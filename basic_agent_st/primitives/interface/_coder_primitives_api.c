@@ -182,11 +182,11 @@ void StoppingPrimitive_api(const mxArray *const prhs[3], int32_T nlhs,
   st.tls = emlrtRootTLSGlobal;
   coeffs = (real_T(*)[6])mxMalloc(sizeof(real_T[6]));
   /* Marshall function inputs */
-  a0 = emlrt_marshallIn(&st, emlrtAliasP(prhs[0]), "a0");
-  v0 = emlrt_marshallIn(&st, emlrtAliasP(prhs[1]), "v0");
+  v0 = emlrt_marshallIn(&st, emlrtAliasP(prhs[0]), "v0");
+  a0 = emlrt_marshallIn(&st, emlrtAliasP(prhs[1]), "a0");
   sf = emlrt_marshallIn(&st, emlrtAliasP(prhs[2]), "sf");
   /* Invoke the target function */
-  StoppingPrimitive(a0, v0, sf, *coeffs, &s_max, &tf);
+  StoppingPrimitive(v0, a0, sf, *coeffs, &s_max, &tf);
   /* Marshall function outputs */
   plhs[0] = emlrt_marshallOut(*coeffs);
   if (nlhs > 1) {
@@ -260,6 +260,35 @@ void primitives_initialize(void)
 void primitives_terminate(void)
 {
   emlrtDestroyRootTLS(&emlrtRootTLSGlobal);
+}
+
+void v_opt_fun_api(const mxArray *const prhs[7], const mxArray **plhs)
+{
+  emlrtStack st = {
+      NULL, /* site */
+      NULL, /* tls */
+      NULL  /* prev */
+  };
+  real_T T;
+  real_T a0;
+  real_T af;
+  real_T sf;
+  real_T t;
+  real_T v0;
+  real_T vf;
+  st.tls = emlrtRootTLSGlobal;
+  /* Marshall function inputs */
+  t = emlrt_marshallIn(&st, emlrtAliasP(prhs[0]), "t");
+  v0 = emlrt_marshallIn(&st, emlrtAliasP(prhs[1]), "v0");
+  a0 = emlrt_marshallIn(&st, emlrtAliasP(prhs[2]), "a0");
+  sf = emlrt_marshallIn(&st, emlrtAliasP(prhs[3]), "sf");
+  vf = emlrt_marshallIn(&st, emlrtAliasP(prhs[4]), "vf");
+  af = emlrt_marshallIn(&st, emlrtAliasP(prhs[5]), "af");
+  T = emlrt_marshallIn(&st, emlrtAliasP(prhs[6]), "T");
+  /* Invoke the target function */
+  t = v_opt_fun(t, v0, a0, sf, vf, af, T);
+  /* Marshall function outputs */
+  *plhs = b_emlrt_marshallOut(t);
 }
 
 /* End of code generation (_coder_primitives_api.c) */

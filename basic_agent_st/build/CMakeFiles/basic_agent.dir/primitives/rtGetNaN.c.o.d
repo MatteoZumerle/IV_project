@@ -23,12 +23,4 @@ CMakeFiles/basic_agent.dir/primitives/rtGetNaN.c.o: \
   /usr/lib/llvm-14/lib/clang/14.0.0/include/float.h \
   /usr/lib/llvm-14/lib/clang/14.0.0/include/stddef.h \
   /usr/lib/llvm-14/lib/clang/14.0.0/include/__stddef_max_align_t.h \
-  /home/matteo/Documenti/Intelligent\ vehicles/Project_local/basic_agent_st/primitives/simstruc_types.h \
-  /home/matteo/Documenti/Intelligent\ vehicles/Project_local/basic_agent_st/primitives/sl_types_def.h \
-  /home/matteo/Documenti/Intelligent\ vehicles/Project_local/basic_agent_st/primitives/rtw_matlogging.h \
-  /home/matteo/Documenti/Intelligent\ vehicles/Project_local/basic_agent_st/primitives/rtw_extmode.h \
-  /home/matteo/Documenti/Intelligent\ vehicles/Project_local/basic_agent_st/primitives/rtw_continuous.h \
-  /home/matteo/Documenti/Intelligent\ vehicles/Project_local/basic_agent_st/primitives/rtw_solver.h \
-  /home/matteo/Documenti/Intelligent\ vehicles/Project_local/basic_agent_st/primitives/sysran_types.h \
-  /home/matteo/Documenti/Intelligent\ vehicles/Project_local/basic_agent_st/primitives/sl_sample_time_defs.h \
   /home/matteo/Documenti/Intelligent\ vehicles/Project_local/basic_agent_st/primitives/rt_nonfinite.h
