@@ -1,5 +1,4 @@
 .idea
-bin
 matlab/codegen/mex
 matlab/coef_list.m
 matlab/total_cost.m
@@ -13,4 +12,5 @@ cmake-build-debug
 
 lib/libagent_lib.a
 matlab/
-Icon
+Icon
+
