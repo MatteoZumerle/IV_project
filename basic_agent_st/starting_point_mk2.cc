@@ -98,8 +98,8 @@ int main(int argc, const char * argv[]) {
 
             // Define the boundaries in terms of acceleration and velocities
             
-            double minAcc = -20;
-            double maxAcc = 10;
+            double minAcc = -10;
+            double maxAcc = 1;
             double acc = fmin(fmax(in->ALgtFild, minAcc), maxAcc);  // Here the saturation of the possible values of acceleration INVERTED WRT THE PRESENTED!
             double vel = in->VLgtFild;                              // Extract from the simulation the actual speed of the car
             static double initial_dist = in->TrfLightDist;          // Extract from the simulation the initial dist from traffic light
@@ -111,17 +111,16 @@ int main(int argc, const char * argv[]) {
 
             double Vr = in->RequestedCruisingSpeed;         // ?
             double sf = in->TrfLightDist;                   // extract from the simulation time after time the distance from the tl
-            double s_max;
-            
+
             //---------------------------------------------------------------------------//
            
             //Build a first dummy condition to generate the primitives 
             //-> when passed the lenght of 80m stops the car
-            double stop_point = sf - 80; // Stop the car 80 meters before the traffic lights
-            if(initial_dist - in->TrfLightDist > stop_point){
+
+            if(initial_dist - in->TrfLightDist > 50){
                 
                 // Activate the stopping primitive
-                StoppingPrimitive(vel, acc, stop_point, coeffsT1, &s_max, &Tf);    // Check how to pass the variables
+                StoppingPrimitive(vel, acc, sf, coeffsT1, &sf, &Tf);    // Check how to pass the variables
                 
 
             }else{
@@ -132,7 +131,7 @@ int main(int argc, const char * argv[]) {
                 vmax = 50;
                 tmin = minTime - (in->ECUupTime);                                       // Rescale wrt the CPU timing
                 tmax = maxTime - (in->ECUupTime);
-                PassingPrimitive(acc, vel, stop_point, vmin, vmax, tmin, tmax, coeffsT1, coeffsT2); // Check how to pass the variables
+                PassingPrimitive(acc, vel, sf, vmin, vmax, tmin, tmax, coeffsT1, coeffsT2); // Check how to pass the variables
             }
 
 
@@ -180,7 +179,7 @@ int main(int argc, const char * argv[]) {
             // Log the data generated in the simulation in the PrimitivePlot file
             //logger.log_var("Example", "cycle", in->CycleNumber);
             logger.log_var("PrimitivePlot", "time", in-> ECUupTime);
-            logger.log_var("PrimitivePlot", "dist", 160 - in-> TrfLightDist);
+            logger.log_var("PrimitivePlot", "dist", in-> TrfLightDist);
             logger.log_var("PrimitivePlot", "vel", in->VLgtFild);
             logger.log_var("PrimitivePlot", "acc", in->ALgtFild);
             logger.log_var("PrimitivePlot", "Sf", sf);
@@ -209,7 +208,7 @@ int main(int argc, const char * argv[]) {
             printLogVar(message_id, "CycleNumber", in->CycleNumber);
             printLogVar(message_id, "TF dist [m]", in->TrfLightDist);
             printLogVar(message_id, "LongVel", in->VLgtFild);
-            printLogVar(message_id, "LongAcc", in->ALgtFild); //acc
+            printLogVar(message_id, "LongAcc", in->ALgtFild);
             printLogVar(message_id, "Speed", vel);
             printLogVar(message_id, "Req vel", req_vel);
             printLogVar(message_id, "Req pedal", req_pedal);
