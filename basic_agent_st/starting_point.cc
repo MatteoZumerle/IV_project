@@ -90,14 +90,8 @@ int main(int argc, const char * argv[]) {
             double tmin, tmax;
             double coeffsT1[6];
             double coeffsT2[6];          
-            double Tf;
 
             // Second set composed by the best parameters calculated
-            
-           
-            double bestV;
-            double bestS;
-            double bestT;
 
             double minTime = 10;             // Minimum time required to pass
             double maxTime = 35;             // Maximum time required to pass
@@ -139,67 +133,64 @@ int main(int argc, const char * argv[]) {
             ECUupTimeOld = in->ECUupTime;
 
             //---------------------------------------------------------------------------//
-           
+            // Main loop
+
             if(in->NrTrfLights !=0){
-               xtr = in->TrfLightDist;
-               xstop = (in->TrfLightDist) -xs/2;
+                xtr = in->TrfLightDist;
+                xstop = (in->TrfLightDist) -xs/2;
             }
                 
-            if(in->NrTrfLights == 0 || xtr >= lookahead){
+            if(in->NrTrfLights != 1 || xtr >= lookahead){
                 PassingPrimitive(a0, v0, lookahead, vr, vr, 0, 0, mstar, mstar2);
             }
             else{
                 switch (in->TrfLightCurrState) {
                     case 1:
-                        Tgreen = 0;
-                        Tred = in->TrfLightFirstTimeToChange - Tin;
+                        Tgreen = (in->ECUupTime);
+                        Tred = in->TrfLightFirstTimeToChange - Tin - (in->ECUupTime);
                         break;
                     case 2:
-                        Tgreen = in->TrfLightSecondTimeToChange + Ts;
-                        Tred = in->TrfLightThirdTimeToChange - Tin;
+                        Tgreen = in->TrfLightSecondTimeToChange + Ts - (in->ECUupTime);
+                        Tred = in->TrfLightThirdTimeToChange - Tin - (in->ECUupTime);
                         break;
                     case 3:
-                        Tgreen = in->TrfLightFirstTimeToChange + Ts;
-                        Tred = in->TrfLightSecondTimeToChange - Tin;
+                        Tgreen = in->TrfLightFirstTimeToChange + Ts - (in->ECUupTime);
+                        Tred = in->TrfLightSecondTimeToChange - Tin - (in->ECUupTime);
                         break;
-            }
-
-            if (in->TrfLightCurrState == 1 && in->TrfLightDist<= xs){
-                PassingPrimitive(a0, v0, lookahead, vr, vr, 0, 0, mstar, mstar2);
-            }
-            else{
-                PassingPrimitive(a0, v0, xtr, vmin, vmax, Tgreen, Tred, m1, m2);
-            }
-            if(m1 == 0 && m2==0){
-                StoppingPrimitive(v0, a0, xtr, mstar, &s_max, &tf);
-            }
-            else{
-                if( (m1[3]<0 && m2[3]>0) || (m1[3]>0 && m2[3]<0) ){
-                    PassingPrimitivej0(a0, v0, xtr, vmin, vmax, mstar);
                 }
-                else if (abs(m1[3])<0 && abs(m2[3])>0)
-                {
-                    for (int i = 0; i < sizeof(m1); i++) {
-                        mstar[i] = m1[i];
+
+                if (in->TrfLightCurrState == 1 && (in->TrfLightDist) <= xs){
+                    PassingPrimitive(a0, v0, lookahead, vr, vr, 0, 0, mstar, mstar2);
+                }
+                else{
+                    PassingPrimitive(a0, v0, xtr, vmin, vmax, Tgreen, Tred, m1, m2);
+                    if( m1[0] == 0 && m1[1] == 0 && m1[2] == 0 && m1[3] == 0 && m1[4] == 0 && m1[5] == 0 && 
+                        m2[0] == 0 && m2[1] == 0 && m2[2] == 0 && m2[3] == 0 && m2[4] == 0 && m2[5] == 0 ){
+                        StoppingPrimitive(v0, a0, xtr, mstar, &s_max, &tf);
                     }
+                    else{
+                        if( (m1[3]<0 && m2[3]>0) || (m1[3]>0 && m2[3]<0) ){
+                            PassingPrimitivej0(a0, v0, xtr, vmin, vmax, mstar);
+                        }
+                        else{
+                            if (abs(m1[3]) < abs(m2[3])){
+                                for (int i = 0; i < sizeof(m1); i++) {
+                                    mstar[i] = m1[i];
+                                }
+                            }
+                            else{
+                                for (int i = 0; i < sizeof(m2); i++) {
+                                mstar[i] = m2[i];
+                                }
+                            }
+                        } 
+                    }           
                 }
-                else {
-                    for (int i = 0; i < sizeof(m2); i++) {
-                        mstar[i] = m2[i];
-                    }
-                }
-
-                
             }
 
-            // -- RICONTROLLARE LA SCALETTA DEGLI IF CHE NON SONO CONVINTO...
-
-
-           
-            
+        
             // Build the jerk controller
 
-            
             static double old_req_acc = 0;
             double longGain = 1;
             double jerk0 = mstar[3];           // Collect the values of the coefficients in order to build the controller
@@ -212,7 +203,7 @@ int main(int argc, const char * argv[]) {
             double jTnew = jerk0 + (DT + t_offset) * snap0 + 0.5 * pow(DT + t_offset, 2) * crakle0;  // Final jerk after the deltaT
             double request_acc = fmin(fmax(old_req_acc + longGain * (DT * (jTnew+jTold) * 0.5), minAcc), maxAcc);
             old_req_acc = request_acc;
-            double req_vel = v_opt_fun(DT, v0, a0, bestS, bestV, 0.0, bestT);     // CORREEGERE CHE NON VA!
+            double req_vel = v_opt_fun(DT, v0, a0, xf, v0, 0.0, tf);     // CORREEGERE CHE NON VA!
            
             // PID configuration
 
@@ -239,7 +230,7 @@ int main(int argc, const char * argv[]) {
             logger.log_var("PrimitivePlot", "tmax", tmax);
             logger.log_var("PrimitivePlot", "req_vel", req_vel);
             logger.log_var("PrimitivePlot", "req_acc", request_acc);
-            logger.log_var("PrimitivePlot", "T", bestT);
+            logger.log_var("PrimitivePlot", "T", tf);
             logger.log_var("PrimitivePlot", "C0", mstar[0]);
             logger.log_var("PrimitivePlot", "C1", mstar[1]);
             logger.log_var("PrimitivePlot", "C2", mstar[2]);
@@ -249,22 +240,22 @@ int main(int argc, const char * argv[]) {
             logger.log_var("PrimitivePlot", "Fasullo", in->CycleNumber);
 
             // Write log
-            logger.write_line("PrimitivePlot");
-            //---------------------------------------------sistemare qui, non plotta
+            logger.write_line("TrflgthPlot");
+    
 
             // Screen print
             //printLogVar(message_id, "Time", num_seconds);
             //printLogVar(message_id, "Status", in->Status);
             printLogVar(message_id, "CycleNumber", in->CycleNumber);
-            printLogVar(message_id, "TF dist [m]", in->TrfLightDist);
+            printLogVar(message_id, "TF dist [m]", xtr);
             printLogVar(message_id, "LongVel", in->VLgtFild);
             printLogVar(message_id, "LongAcc", in->ALgtFild); //acc
             printLogVar(message_id, "Speed", v0);
-            printLogVar(message_id, "Req vel", req_vel);
+            printLogVar(message_id, "Req vel", vr);
             printLogVar(message_id, "Req pedal", req_pedal);
-
+            printLogVar(message_id, "N trf lgth", in->NrTrfLights);
+            printLogVar(message_id, "Stop position", xstop);
             
-
 
             // ADD LOW LEVEL CONTROL CODE HERE
             manoeuvre_msg.data_struct.RequestedAcc = req_pedal; // What is sent correspond to the level off accleration/deceleration required
