@@ -87,14 +87,8 @@ int main(int argc, const char * argv[]) {
 
             // vehicle state
             
-            double tmin, tmax;
             double coeffsT1[6];
             double coeffsT2[6];          
-
-            // Second set composed by the best parameters calculated
-
-            double minTime = 10;             // Minimum time required to pass
-            double maxTime = 35;             // Maximum time required to pass
 
             // Define the boundaries in terms of acceleration and velocities -------- FROM HERE THE CODES OF THE SLIDES PAG 104
             
@@ -132,41 +126,47 @@ int main(int argc, const char * argv[]) {
             static double ECUupTimeOld = 0;
             ECUupTimeOld = in->ECUupTime;
 
+            double minTime = 0 + in->ECUupTime;             // Minimum time 
+            double maxTime = 1000 + in->ECUupTime;             // Maximum time 
+
             //---------------------------------------------------------------------------//
+            
             // Main loop
 
-            if(in->NrTrfLights !=0){
-                xtr = in->TrfLightDist;
-                xstop = (in->TrfLightDist) -xs/2;
+
+            xtr = in->TrfLightDist;
+            xstop = xtr -xs/2;
+       
+
+            if (xtr >= lookahead){
+                PassingPrimitive(a0, v0, lookahead, vr, vr, 1,  100 , mstar, mstar2);
+                printLogVar(message_id, "Entra nella passing", in->CycleNumber);
             }
-                
-            if(in->NrTrfLights != 1 || xtr >= lookahead){
-                PassingPrimitive(a0, v0, lookahead, vr, vr, 0, 0, mstar, mstar2);
-            }
-            else{
+            else {
                 switch (in->TrfLightCurrState) {
                     case 1:
-                        Tgreen = (in->ECUupTime);
-                        Tred = in->TrfLightFirstTimeToChange - Tin - (in->ECUupTime);
+                        Tgreen = 0;
+                        Tred = in->TrfLightFirstTimeToChange -Tin ;
                         break;
                     case 2:
-                        Tgreen = in->TrfLightSecondTimeToChange + Ts - (in->ECUupTime);
-                        Tred = in->TrfLightThirdTimeToChange - Tin - (in->ECUupTime);
+                        Tgreen = in->TrfLightSecondTimeToChange + Ts;
+                        Tred = in->TrfLightThirdTimeToChange - Tin;
                         break;
                     case 3:
-                        Tgreen = in->TrfLightFirstTimeToChange + Ts - (in->ECUupTime);
-                        Tred = in->TrfLightSecondTimeToChange - Tin - (in->ECUupTime);
+                        Tgreen = in->TrfLightFirstTimeToChange + Ts;
+                        Tred = in->TrfLightSecondTimeToChange - Tin;
                         break;
                 }
 
-                if (in->TrfLightCurrState == 1 && (in->TrfLightDist) <= xs){
-                    PassingPrimitive(a0, v0, lookahead, vr, vr, 0, 0, mstar, mstar2);
+                if (xtr <= Ts){
+                    PassingPrimitive(a0, v0, lookahead, vr, vr, 1, 100, mstar, mstar2);
                 }
                 else{
                     PassingPrimitive(a0, v0, xtr, vmin, vmax, Tgreen, Tred, m1, m2);
                     if( m1[0] == 0 && m1[1] == 0 && m1[2] == 0 && m1[3] == 0 && m1[4] == 0 && m1[5] == 0 && 
                         m2[0] == 0 && m2[1] == 0 && m2[2] == 0 && m2[3] == 0 && m2[4] == 0 && m2[5] == 0 ){
-                        StoppingPrimitive(v0, a0, xtr, mstar, &s_max, &tf);
+                        StoppingPrimitive(v0, a0, xstop, mstar, &s_max, &tf);
+                        printLogVar(message_id, "Entra nella stop", in->CycleNumber);
                     }
                     else{
                         if( (m1[3]<0 && m2[3]>0) || (m1[3]>0 && m2[3]<0) ){
@@ -187,7 +187,6 @@ int main(int argc, const char * argv[]) {
                     }           
                 }
             }
-
         
             // Build the jerk controller
 
@@ -226,8 +225,8 @@ int main(int argc, const char * argv[]) {
             logger.log_var("PrimitivePlot", "Sf", xf);
             logger.log_var("PrimitivePlot", "vmin", vmin);
             logger.log_var("PrimitivePlot", "vmax", vmax);
-            logger.log_var("PrimitivePlot", "tmin", tmin);
-            logger.log_var("PrimitivePlot", "tmax", tmax);
+            logger.log_var("PrimitivePlot", "tmin", minTime);
+            logger.log_var("PrimitivePlot", "tmax", maxTime);
             logger.log_var("PrimitivePlot", "req_vel", req_vel);
             logger.log_var("PrimitivePlot", "req_acc", request_acc);
             logger.log_var("PrimitivePlot", "T", tf);
@@ -254,6 +253,7 @@ int main(int argc, const char * argv[]) {
             printLogVar(message_id, "Req vel", vr);
             printLogVar(message_id, "Req pedal", req_pedal);
             printLogVar(message_id, "N trf lgth", in->NrTrfLights);
+            printLogVar(message_id, "TL state", in->TrfLightCurrState);
             printLogVar(message_id, "Stop position", xstop);
             
 
