@@ -126,8 +126,11 @@ int main(int argc, const char * argv[]) {
             static double ECUupTimeOld = 0;
             ECUupTimeOld = in->ECUupTime;
 
-            double minTime = 0 + in->ECUupTime;             // Minimum time 
-            double maxTime = 1000 + in->ECUupTime;             // Maximum time 
+            double minTime = 0 ;             // Minimum time 
+            double maxTime = 15;             // Maximum time 
+            bool restart = 0;
+            bool req_pass = 0;
+            double req_pedal = 0;
 
             //---------------------------------------------------------------------------//
             
@@ -136,11 +139,17 @@ int main(int argc, const char * argv[]) {
 
             xtr = in->TrfLightDist;
             xstop = xtr -xs/2;
+
+            if (restart == 1 && in->TrfLightCurrState ==1){ // In order to restart from the red light
+                PassingPrimitive(a0, v0, lookahead, vr, vr, minTime, maxTime, mstar, mstar2);
+                req_pedal = 0;
+                restart = 0;
+            }
        
 
             if (xtr >= lookahead){
-                PassingPrimitive(a0, v0, lookahead, vr, vr, 1,  100 , mstar, mstar2);
-                printLogVar(message_id, "Entra nella passing", in->CycleNumber);
+                PassingPrimitive(a0, v0, lookahead, vr, vr, minTime,  maxTime , mstar, mstar2);
+                //printLogVar(message_id, "Entra nella passing", in->CycleNumber);
             }
             else {
                 switch (in->TrfLightCurrState) {
@@ -159,14 +168,16 @@ int main(int argc, const char * argv[]) {
                 }
 
                 if (xtr <= Ts){
-                    PassingPrimitive(a0, v0, lookahead, vr, vr, 1, 100, mstar, mstar2);
+                    PassingPrimitive(a0, v0, lookahead, vr, vr, minTime, maxTime, mstar, mstar2);
                 }
                 else{
                     PassingPrimitive(a0, v0, xtr, vmin, vmax, Tgreen, Tred, m1, m2);
                     if( m1[0] == 0 && m1[1] == 0 && m1[2] == 0 && m1[3] == 0 && m1[4] == 0 && m1[5] == 0 && 
                         m2[0] == 0 && m2[1] == 0 && m2[2] == 0 && m2[3] == 0 && m2[4] == 0 && m2[5] == 0 ){
                         StoppingPrimitive(v0, a0, xstop, mstar, &s_max, &tf);
-                        printLogVar(message_id, "Entra nella stop", in->CycleNumber);
+                        //printLogVar(message_id, "Entra nella stop", in->CycleNumber);
+                        restart = 1;
+                       
                     }
                     else{
                         if( (m1[3]<0 && m2[3]>0) || (m1[3]>0 && m2[3]<0) ){
@@ -206,37 +217,45 @@ int main(int argc, const char * argv[]) {
            
             // PID configuration
 
-            double P_gain = 0.02;
+            double P_gain = 0.2;
             double I_gain = 1;
             double Error = request_acc - a0;
             static double integration = 0;
             integration = integration + Error * DT;  // Missing to define the accelerations the error and the integration step
-          
-            double req_pedal = Error*P_gain + integration * I_gain;
-            old_req_acc = request_acc;
-            
 
-            // Log the data generated in the simulation in the PrimitivePlot file
+            
+            if (v0 <=0.001 && restart  == 1){      // Putting a limit for the req_pedal in order to limit its decreasing
+                Error = 0;
+                integration = 0;
+                old_req_acc = 0;
+                }              
+            
+            req_pedal = Error*P_gain + integration * I_gain; 
+           
+
+    
+
+            // Log the data generated in the simulation in the TrflgthPlot file
             //logger.log_var("Example", "cycle", in->CycleNumber);
-            logger.log_var("PrimitivePlot", "time", in-> ECUupTime);
-            logger.log_var("PrimitivePlot", "dist", 160 - in-> TrfLightDist);
-            logger.log_var("PrimitivePlot", "vel", in->VLgtFild);
-            logger.log_var("PrimitivePlot", "acc", in->ALgtFild);
-            logger.log_var("PrimitivePlot", "Sf", xf);
-            logger.log_var("PrimitivePlot", "vmin", vmin);
-            logger.log_var("PrimitivePlot", "vmax", vmax);
-            logger.log_var("PrimitivePlot", "tmin", minTime);
-            logger.log_var("PrimitivePlot", "tmax", maxTime);
-            logger.log_var("PrimitivePlot", "req_vel", req_vel);
-            logger.log_var("PrimitivePlot", "req_acc", request_acc);
-            logger.log_var("PrimitivePlot", "T", tf);
-            logger.log_var("PrimitivePlot", "C0", mstar[0]);
-            logger.log_var("PrimitivePlot", "C1", mstar[1]);
-            logger.log_var("PrimitivePlot", "C2", mstar[2]);
-            logger.log_var("PrimitivePlot", "C3", mstar[3]);
-            logger.log_var("PrimitivePlot", "C4", mstar[4]);
-            logger.log_var("PrimitivePlot", "C5", mstar[5]);
-            logger.log_var("PrimitivePlot", "Fasullo", in->CycleNumber);
+            logger.log_var("TrflgthPlot", "time", in-> ECUupTime);
+            logger.log_var("TrflgthPlot", "dist", 160 - in-> TrfLightDist);
+            logger.log_var("TrflgthPlot", "vel", in->VLgtFild);
+            logger.log_var("TrflgthPlot", "acc", in->ALgtFild);
+            logger.log_var("TrflgthPlot", "Sf", xf);
+            logger.log_var("TrflgthPlot", "vmin", vmin);
+            logger.log_var("TrflgthPlot", "vmax", vmax);
+            logger.log_var("TrflgthPlot", "tmin", minTime);
+            logger.log_var("TrflgthPlot", "tmax", maxTime);
+            logger.log_var("TrflgthPlot", "req_vel", req_vel);
+            logger.log_var("TrflgthPlot", "req_acc", request_acc);
+            logger.log_var("TrflgthPlot", "T", tf);
+            logger.log_var("TrflgthPlot", "C0", mstar[0]);
+            logger.log_var("TrflgthPlot", "C1", mstar[1]);
+            logger.log_var("TrflgthPlot", "C2", mstar[2]);
+            logger.log_var("TrflgthPlot", "C3", mstar[3]);
+            logger.log_var("TrflgthPlot", "C4", mstar[4]);
+            logger.log_var("TrflgthPlot", "C5", mstar[5]);
+            logger.log_var("TrflgthPlot", "Fasullo", in->CycleNumber);
 
             // Write log
             logger.write_line("TrflgthPlot");
@@ -245,16 +264,17 @@ int main(int argc, const char * argv[]) {
             // Screen print
             //printLogVar(message_id, "Time", num_seconds);
             //printLogVar(message_id, "Status", in->Status);
+            printLogVar(message_id, "dist", 160 - in-> TrfLightDist);
             printLogVar(message_id, "CycleNumber", in->CycleNumber);
             printLogVar(message_id, "TF dist [m]", xtr);
             printLogVar(message_id, "LongVel", in->VLgtFild);
             printLogVar(message_id, "LongAcc", in->ALgtFild); //acc
-            printLogVar(message_id, "Speed", v0);
-            printLogVar(message_id, "Req vel", vr);
+            //printLogVar(message_id, "Speed", v0);
+            //printLogVar(message_id, "Req vel", vr);
             printLogVar(message_id, "Req pedal", req_pedal);
-            printLogVar(message_id, "N trf lgth", in->NrTrfLights);
+            //printLogVar(message_id, "N trf lgth", in->NrTrfLights);
             printLogVar(message_id, "TL state", in->TrfLightCurrState);
-            printLogVar(message_id, "Stop position", xstop);
+            //printLogVar(message_id, "Stop position", xstop);
             
 
             // ADD LOW LEVEL CONTROL CODE HERE
