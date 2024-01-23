@@ -12,7 +12,8 @@
 import math
 import signal
 
-from pydrivingsim import World, Vehicle, TrafficLight, Agent, Target, TrafficCone
+from pydrivingsim import World, Vehicle, TrafficLight, Agent, Target, TrafficCone, Segnale10, Segnale50, Segnale30, Segnaleschool
+
 
 class GracefulKiller:
   kill_now = False
@@ -33,6 +34,25 @@ def main():
     cone.set_pos((1.0,2))
     cone = TrafficCone()
     cone.set_pos((1.0,-2))
+
+  # Decide the position from start of the signal, writing it on the first number
+
+
+    signal30 = Segnale30()
+    signal30.set_pos((100, 6, -2))
+
+    signal10 = Segnale10()
+    signal10.set_pos((200, 6, -2))
+
+    signalschool = Segnaleschool()
+    signalschool.set_pos((225, -10, -2))
+
+    signal10 = Segnale50()
+    signal10.set_pos((250, 6, -2))
+
+
+
+ 
 
     trafficlight = TrafficLight()
     trafficlight.set_pos((775,-3))
