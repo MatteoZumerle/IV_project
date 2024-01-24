@@ -1,4 +1,4 @@
-# Install script for directory: /home/matteo/Documenti/Intelligent vehicles/Project_local/basic_agent_st
+# Install script for directory: /home/matteo/Documenti/Intelligent vehicles/Extended_local/basic_agent_st
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/matteo/Documenti/Intelligent vehicles/Project_local/basic_agent_st/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/matteo/Documenti/Intelligent vehicles/Extended_local/basic_agent_st/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

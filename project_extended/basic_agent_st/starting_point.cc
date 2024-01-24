@@ -103,6 +103,10 @@ int main(int argc, const char * argv[]) {
             double vmax = 15;
             double vr = in->RequestedCruisingSpeed;
 
+            double v30 = 30/3.6;
+            double v10 = 10/3.6;
+            double v50 = 50/3.6;
+
             double xs = 5;                // Safety space (in order to stop before)
             double Ts = xs/vmin;          // Safety time in order to stop before
             double xin = 10;              // Width of the intersection where is present the traffic light
@@ -148,8 +152,37 @@ int main(int argc, const char * argv[]) {
        
 
             if (xtr >= lookahead){
-                PassingPrimitive(a0, v0, lookahead, vr, vr, minTime,  maxTime , mstar, mstar2);
+                
+                //PassingPrimitive(a0, v0, lookahead, vr, vr, minTime,  maxTime , mstar, mstar2);
                 //printLogVar(message_id, "Entra nella passing", in->CycleNumber);
+                // Here enter to check the signals distances in order to reduce/increase the speed of the vehicle in order to not break the law
+                // 100 200 225 250
+
+
+                if (((initial_dist-xtr)>100) && ((initial_dist-xtr)<200)){
+                    // Select the 30 km/h speed -> 8.33
+                    printLogVar(message_id, "Entra nella zona 30", in->CycleNumber);
+                    PassingPrimitive(a0, v0, lookahead, v30, v30, 0,  5 , mstar, mstar2);
+
+                }
+
+                else if (((initial_dist-xtr)>200) && ((initial_dist-xtr)<225)){
+                    // Select the 10 km/h speed -> 2.77
+                    printLogVar(message_id, "Entra nella zona 10", in->CycleNumber);
+                    PassingPrimitive(a0, v0, lookahead, v10, v10, minTime,  maxTime , mstar, mstar2);
+
+
+                }
+
+                else {
+                    // Select the 50 km/h speed -> 13.88
+                    printLogVar(message_id, "Entra nella zona 50", in->CycleNumber);
+                    PassingPrimitive(a0, v0, lookahead, v50, v50, minTime,  maxTime , mstar, mstar2);
+
+
+                }
+
+                
             }
             else {
                 switch (in->TrfLightCurrState) {
@@ -213,7 +246,7 @@ int main(int argc, const char * argv[]) {
             double jTnew = jerk0 + (DT + t_offset) * snap0 + 0.5 * pow(DT + t_offset, 2) * crakle0;  // Final jerk after the deltaT
             double request_acc = fmin(fmax(old_req_acc + longGain * (DT * (jTnew+jTold) * 0.5), minAcc), maxAcc);
             old_req_acc = request_acc;
-            double req_vel = v_opt_fun(DT, v0, a0, xf, v0, 0.0, tf);     // CORREEGERE CHE NON VA!
+            double req_vel = v_opt_fun(DT, v0, a0, xf, v0, 0.0, tf);     
            
             // PID configuration
 

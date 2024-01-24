@@ -12,7 +12,7 @@
 import math
 import signal
 
-from pydrivingsim import World, Vehicle, TrafficLight, Agent, Target, TrafficCone, Segnale10, Segnale50, Segnale30, Segnaleschool
+from pydrivingsim import World, Vehicle, TrafficLight, Agent, Target, TrafficCone, Segnale10, Segnale30, Segnale50, Segnale90,Segnaleschool
 
 
 class GracefulKiller:
@@ -47,19 +47,19 @@ def main():
     signalschool = Segnaleschool()
     signalschool.set_pos((225, -10, -2))
 
-    signal10 = Segnale50()
-    signal10.set_pos((250, 6, -2))
+    signal50 = Segnale50()
+    signal50.set_pos((250, 6, -2))
 
+    signal90 = Segnale90()
+    signal90.set_pos((300, 6, -2))
 
-
- 
 
     trafficlight = TrafficLight()
     trafficlight.set_pos((775,-3))
 
     vehicle = Vehicle()
     vehicle.set_screen_here()
-    vehicle.set_pos_ang((0,-1,0))
+    vehicle.set_pos_ang((0,-0.75,0))
 
     agent = Agent(vehicle)
 
