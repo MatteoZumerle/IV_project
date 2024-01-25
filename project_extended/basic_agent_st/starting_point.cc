@@ -105,14 +105,20 @@ int main(int argc, const char * argv[]) {
 
 
             double lookahead = fmax(50, v0*5);                      // Look ahead distance to consider building the primitives
-            double vmin = 3;https://maps.app.goo.gl/dSFjG1RekKyXKvSz9
+            double vmin = 3;
             double vmax = 15;
             double vr = in->RequestedCruisingSpeed;
 
-            double v30 = 30/3.6;
-            double v10 = 10/3.6;
-            double v50 = 50/3.6;
-            double v90 = 90/3.6;
+            // calculate the parameter to pass to the regulating passing speed function
+            double s_passing = 0;
+            double v_passing = 0;
+
+            int flag30 = 0;         // flag used to decide to enter in the if to switch to the desired velocity
+            int flag10 = 0;
+            int flag50 = 0;
+            int flag90 = 0;
+            int flag_nolim = 0;
+
 
             double xs = 5;                // Safety space (in order to stop before)
             double Ts = xs/vmin;          // Safety time in order to stop before
@@ -165,64 +171,94 @@ int main(int argc, const char * argv[]) {
 
             if (xtr >= lookahead){
                 
-                //PassingPrimitive(a0, v0, lookahead, vr, vr, minTime,  maxTime , mstar, mstar2);
-
-                PassingPrimitive(a0, v0, lookahead, v30, v30, 0,  1 , mstar, mstar2);
+                
+                // Print the distances of the signals wrt the vehicle position
+                /*
                 if (in-> AdasisSpeedLimitDist[0] > 0 ){
                     printLogVar(message_id, "Distanza  primo segnale", in-> AdasisSpeedLimitDist[0]);
                 }
-
                 if (in-> AdasisSpeedLimitDist[1] > 0 ){
                     printLogVar(message_id, "Distanza  secondo segnale", in-> AdasisSpeedLimitDist[1]); 
                 }
-
                 if (in-> AdasisSpeedLimitDist[2] > 0 ){
                     printLogVar(message_id, "Distanza  terzo segnale", in-> AdasisSpeedLimitDist[2]);
                 }
-
                 if (in-> AdasisSpeedLimitDist[3] > 0 ){
                     printLogVar(message_id, "Distanza  quarto segnale", in-> AdasisSpeedLimitDist[3]);
                 }
+                */
 
                 // ---------------- Here the division to regeulate correctly the speed limits ----------------
-
-                if ((initial_dist-xtr)<initial_dist1 -100){
-                    // Select the 30 km/h speed -> 8.33
-                    printLogVar(message_id, "Entra nella zona 30", in->CycleNumber);
-                    //PassingPrimitive(a0, v0, distyanza al segnale, v30, v30, 0,  1 , mstar, mstar2);
-                    PassingPrimitive(a0, v0, in->AdasisSpeedLimitDist[0], in->AdasisSpeedLimitValues[0], in->AdasisSpeedLimitValues[0], minTime_reg,  maxTime_reg , mstar, mstar2);
-
-                }
-
-                else if (((initial_dist-xtr)>200) && ((initial_dist-xtr)<250)){
-                    // Select the 10 km/h speed -> 2.77
-                    printLogVar(message_id, "Entra nella zona 10", in->CycleNumber);
-                    PassingPrimitive(a0, v0, lookahead, v50, v50, minTime,  maxTime , mstar, mstar2);
-
-
-                }
-
-                else if ((initial_dist-xtr)>250 && (initial_dist-xtr)<400){
-                    // Select the 50 km/h speed -> 13.88
-                    printLogVar(message_id, "Entra nella zona 50", in->CycleNumber);
-                    PassingPrimitive(a0, v0, lookahead, v50, v50, minTime,  maxTime , mstar, mstar2);
-
-
-                } 
+               
                 
-                else if ((initial_dist-xtr)>400 && (initial_dist-xtr)<initial_dist){
-                    // Select the 90 km/h speed -> 25
-                    printLogVar(message_id, "Entra nella zona 90", in->CycleNumber);
-                    PassingPrimitive(a0, v0, lookahead, v90, v90, minTime,  maxTime , mstar, mstar2);
+
+                // Limit 30
+                if (in->AdasisSpeedLimitDist[0]<20 && in->AdasisSpeedLimitDist[1]>0 && in->AdasisSpeedLimitDist[2]>0 && in->AdasisSpeedLimitDist[3]>0){
+                    // Select the 30 km/h speed -> 8.33 m/s                    
+                    printLogVar(message_id, "Preparo per zona 30", in->CycleNumber);
+                   
+                    if (in->AdasisSpeedLimitDist[0]<0){
+                        printLogVar(message_id, "mantenimento zona 30", in->CycleNumber);   
+                        PassingPrimitive(a0, v0, lookahead, (in->AdasisSpeedLimitValues[0])/3.6, (in->AdasisSpeedLimitValues[0])/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
+                    }
+                    else {
+                        PassingPrimitive(a0, v0, in->AdasisSpeedLimitDist[0], (in->AdasisSpeedLimitValues[0])/3.6, (in->AdasisSpeedLimitValues[0])/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
+                    }
                     
+    
                 }
-                
+
+                // Limit 10
+                else if (in->AdasisSpeedLimitDist[1]<20 && in->AdasisSpeedLimitDist[0]<0 && in->AdasisSpeedLimitDist[2]>0 && in->AdasisSpeedLimitDist[3]>0){
+                    // Select the 10 km/h speed ->  m/s                    
+                    printLogVar(message_id, "Preparo per zona 10", in->CycleNumber);
+                    
+                    if (in->AdasisSpeedLimitDist[1]<0){
+                        PassingPrimitive(a0, v0, lookahead, in->AdasisSpeedLimitValues[1]/3.6, in->AdasisSpeedLimitValues[1]/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
+                    }
+                    else {
+                        PassingPrimitive(a0, v0, in->AdasisSpeedLimitDist[1], (in->AdasisSpeedLimitValues[1])/3.6, (in->AdasisSpeedLimitValues[1])/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
+                    }
+                    
+    
+                }
+
+                // Limit 50
+                else if (in->AdasisSpeedLimitDist[2]<20 && in->AdasisSpeedLimitDist[0]<0 && in->AdasisSpeedLimitDist[1]<0 && in->AdasisSpeedLimitDist[3]>0){
+                    // Select the 10 km/h speed ->  m/s                    
+                    printLogVar(message_id, "Preparo per zona 50", in->CycleNumber);
+                    
+                    if (in->AdasisSpeedLimitDist[1]<0){
+                        PassingPrimitive(a0, v0, lookahead, in->AdasisSpeedLimitValues[2]/3.6, in->AdasisSpeedLimitValues[2]/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
+                    }
+                    else {
+                        PassingPrimitive(a0, v0, in->AdasisSpeedLimitDist[2], (in->AdasisSpeedLimitValues[2])/3.6, (in->AdasisSpeedLimitValues[2])/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
+                    }
+                    
+    
+                }
+
+                // Limit 90
+                else if (in->AdasisSpeedLimitDist[3]<20 && in->AdasisSpeedLimitDist[0]<0 && in->AdasisSpeedLimitDist[1]<0 && in->AdasisSpeedLimitDist[2]<0){
+                    // Select the 10 km/h speed ->  m/s                    
+                    printLogVar(message_id, "Preparo per zona 50", in->CycleNumber);
+                    
+                    if (in->AdasisSpeedLimitDist[3]<0){
+                        PassingPrimitive(a0, v0, lookahead, in->AdasisSpeedLimitValues[2]/3.6, in->AdasisSpeedLimitValues[2]/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
+                    }
+                    else {
+                        PassingPrimitive(a0, v0, in->AdasisSpeedLimitDist[2], (in->AdasisSpeedLimitValues[2])/3.6, (in->AdasisSpeedLimitValues[2])/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
+                    }
+                    
+    
+                }
+
                 else {
-                    printLogVar(message_id, "Entra nella zona NO LIM", in->CycleNumber);
                     PassingPrimitive(a0, v0, lookahead, vr, vr, minTime,  maxTime , mstar, mstar2);
                 }
 
-                
+               
+
             }
             else {
                 switch (in->TrfLightCurrState) {
@@ -290,7 +326,7 @@ int main(int argc, const char * argv[]) {
            
             // PID configuration
 
-            double P_gain = 0.2;
+            double P_gain = 0.01;
             double I_gain = 1;
             double Error = request_acc - a0;
             static double integration = 0;
@@ -311,7 +347,7 @@ int main(int argc, const char * argv[]) {
             // Log the data generated in the simulation in the TrflgthPlot file
             //logger.log_var("Example", "cycle", in->CycleNumber);
             logger.log_var("TrflgthPlot", "time", in-> ECUupTime);
-            logger.log_var("TrflgthPlot", "dist", 775 - in-> TrfLightDist);
+            logger.log_var("TrflgthPlot", "dist", 665 - in-> TrfLightDist);
             logger.log_var("TrflgthPlot", "vel", in->VLgtFild);
             logger.log_var("TrflgthPlot", "acc", in->ALgtFild);
             logger.log_var("TrflgthPlot", "Sf", xf);
