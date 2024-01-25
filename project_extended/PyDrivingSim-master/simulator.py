@@ -12,7 +12,7 @@
 import math
 import signal
 
-from pydrivingsim import World, Vehicle, TrafficLight, Agent, Target, TrafficCone, Segnale10, Segnale30, Segnale50, Segnale90,Segnaleschool
+from pydrivingsim import World, Vehicle, TrafficLight, Agent, Target, TrafficCone, Superstrada, Segnaleschool, Signal, Bologna
 
 
 class GracefulKiller:
@@ -38,20 +38,29 @@ def main():
   # Decide the position from start of the signal, writing it on the first number
 
 
-    signal30 = Segnale30()
-    signal30.set_pos((100, 6, -2))
+    signal = Signal(30)
+    signal.set_pos((200, 6))
 
-    signal10 = Segnale10()
-    signal10.set_pos((200, 6, -2))
+    bologna = Bologna()
+    bologna.set_pos((235, -8))
+    bologna = Bologna()
+    bologna.set_pos((267, -8))
+
+
+    signal = Signal(10)
+    signal.set_pos((300, 6))
 
     signalschool = Segnaleschool()
-    signalschool.set_pos((225, -10, -2))
+    signalschool.set_pos((325, -10))
 
-    signal50 = Segnale50()
-    signal50.set_pos((250, 6, -2))
+    signal = Signal(50)
+    signal.set_pos((350, 6))
 
-    signal90 = Segnale90()
-    signal90.set_pos((300, 6, -2))
+    signal = Signal(90)
+    signal.set_pos((500, 6))
+
+    superstrada = Superstrada()
+    superstrada.set_pos((500, -10))
 
 
     trafficlight = TrafficLight()

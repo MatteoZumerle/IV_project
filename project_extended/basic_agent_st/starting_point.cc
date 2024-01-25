@@ -98,14 +98,21 @@ int main(int argc, const char * argv[]) {
             double v0 = in->VLgtFild;                              // Extract from the simulation the actual speed of the car
             static double initial_dist = in->TrfLightDist;          // Extract from the simulation the initial dist from traffic light
 
+            static double initial_dist1 = in->AdasisSpeedLimitDist[0];          // Extract from the simulation the initial dist from signal 1
+            static double initial_dist2 = in->AdasisSpeedLimitDist[1];          // Extract from the simulation the initial dist from signal 2
+            static double initial_dist3 = in->AdasisSpeedLimitDist[2];          // Extract from the simulation the initial dist from signal 3
+            static double initial_dist4 = in->AdasisSpeedLimitDist[3];          // Extract from the simulation the initial dist from signal 4
+
+
             double lookahead = fmax(50, v0*5);                      // Look ahead distance to consider building the primitives
-            double vmin = 3;
+            double vmin = 3;https://maps.app.goo.gl/dSFjG1RekKyXKvSz9
             double vmax = 15;
             double vr = in->RequestedCruisingSpeed;
 
             double v30 = 30/3.6;
             double v10 = 10/3.6;
             double v50 = 50/3.6;
+            double v90 = 90/3.6;
 
             double xs = 5;                // Safety space (in order to stop before)
             double Ts = xs/vmin;          // Safety time in order to stop before
@@ -132,6 +139,11 @@ int main(int argc, const char * argv[]) {
 
             double minTime = 0 ;             // Minimum time 
             double maxTime = 15;             // Maximum time 
+
+            double minTime_reg = 0 ;             // Minimum time for the regulation of passing
+            double maxTime_reg = 1000;             // Maximum time for the regulation of passing
+
+
             bool restart = 0;
             bool req_pass = 0;
             double req_pedal = 0;
@@ -154,32 +166,60 @@ int main(int argc, const char * argv[]) {
             if (xtr >= lookahead){
                 
                 //PassingPrimitive(a0, v0, lookahead, vr, vr, minTime,  maxTime , mstar, mstar2);
-                //printLogVar(message_id, "Entra nella passing", in->CycleNumber);
-                // Here enter to check the signals distances in order to reduce/increase the speed of the vehicle in order to not break the law
-                // 100 200 225 250
 
+                PassingPrimitive(a0, v0, lookahead, v30, v30, 0,  1 , mstar, mstar2);
+                if (in-> AdasisSpeedLimitDist[0] > 0 ){
+                    printLogVar(message_id, "Distanza  primo segnale", in-> AdasisSpeedLimitDist[0]);
+                }
 
-                if (((initial_dist-xtr)>100) && ((initial_dist-xtr)<200)){
+                if (in-> AdasisSpeedLimitDist[1] > 0 ){
+                    printLogVar(message_id, "Distanza  secondo segnale", in-> AdasisSpeedLimitDist[1]); 
+                }
+
+                if (in-> AdasisSpeedLimitDist[2] > 0 ){
+                    printLogVar(message_id, "Distanza  terzo segnale", in-> AdasisSpeedLimitDist[2]);
+                }
+
+                if (in-> AdasisSpeedLimitDist[3] > 0 ){
+                    printLogVar(message_id, "Distanza  quarto segnale", in-> AdasisSpeedLimitDist[3]);
+                }
+
+                // ---------------- Here the division to regeulate correctly the speed limits ----------------
+
+                if ((initial_dist-xtr)<initial_dist1 -100){
                     // Select the 30 km/h speed -> 8.33
                     printLogVar(message_id, "Entra nella zona 30", in->CycleNumber);
-                    PassingPrimitive(a0, v0, lookahead, v30, v30, 0,  5 , mstar, mstar2);
+                    //PassingPrimitive(a0, v0, distyanza al segnale, v30, v30, 0,  1 , mstar, mstar2);
+                    PassingPrimitive(a0, v0, in->AdasisSpeedLimitDist[0], in->AdasisSpeedLimitValues[0], in->AdasisSpeedLimitValues[0], minTime_reg,  maxTime_reg , mstar, mstar2);
 
                 }
 
-                else if (((initial_dist-xtr)>200) && ((initial_dist-xtr)<225)){
+                else if (((initial_dist-xtr)>200) && ((initial_dist-xtr)<250)){
                     // Select the 10 km/h speed -> 2.77
                     printLogVar(message_id, "Entra nella zona 10", in->CycleNumber);
-                    PassingPrimitive(a0, v0, lookahead, v10, v10, minTime,  maxTime , mstar, mstar2);
+                    PassingPrimitive(a0, v0, lookahead, v50, v50, minTime,  maxTime , mstar, mstar2);
 
 
                 }
 
-                else {
+                else if ((initial_dist-xtr)>250 && (initial_dist-xtr)<400){
                     // Select the 50 km/h speed -> 13.88
                     printLogVar(message_id, "Entra nella zona 50", in->CycleNumber);
                     PassingPrimitive(a0, v0, lookahead, v50, v50, minTime,  maxTime , mstar, mstar2);
 
 
+                } 
+                
+                else if ((initial_dist-xtr)>400 && (initial_dist-xtr)<initial_dist){
+                    // Select the 90 km/h speed -> 25
+                    printLogVar(message_id, "Entra nella zona 90", in->CycleNumber);
+                    PassingPrimitive(a0, v0, lookahead, v90, v90, minTime,  maxTime , mstar, mstar2);
+                    
+                }
+                
+                else {
+                    printLogVar(message_id, "Entra nella zona NO LIM", in->CycleNumber);
+                    PassingPrimitive(a0, v0, lookahead, vr, vr, minTime,  maxTime , mstar, mstar2);
                 }
 
                 
@@ -271,7 +311,7 @@ int main(int argc, const char * argv[]) {
             // Log the data generated in the simulation in the TrflgthPlot file
             //logger.log_var("Example", "cycle", in->CycleNumber);
             logger.log_var("TrflgthPlot", "time", in-> ECUupTime);
-            logger.log_var("TrflgthPlot", "dist", 160 - in-> TrfLightDist);
+            logger.log_var("TrflgthPlot", "dist", 775 - in-> TrfLightDist);
             logger.log_var("TrflgthPlot", "vel", in->VLgtFild);
             logger.log_var("TrflgthPlot", "acc", in->ALgtFild);
             logger.log_var("TrflgthPlot", "Sf", xf);

@@ -9,7 +9,7 @@ from math import *
 import agent.agent_interfaces_connector as agent_lib
 from agent.interfaces_python_data_structs import input_data_str, output_data_str
 
-from pydrivingsim import World, Vehicle, TrafficLight, TrafficCone, Target
+from pydrivingsim import World, Vehicle, TrafficLight, TrafficCone, Target, Signal
 
 
 c = agent_lib.AgentConnector()
@@ -121,6 +121,7 @@ class Agent():
         trafficlight = 0
         trafficlightDist = 0
         objId = 0
+        signalId = 0
         target = 0
         for obj in World().obj_list:
             if type(obj) is TrafficLight:
@@ -140,11 +141,18 @@ class Agent():
                 s.ObjWidth[objId] = obj.width
                 objId = objId + 1
 
+            if type(obj) is Signal:
+                s.AdasisSpeedLimitValues[signalId] = obj.vel
+                s.AdasisSpeedLimitDist[signalId] = obj.pos[0] - v.state[0]
+                signalId = signalId + 1
+                
+
             if type(obj) is Target:
                 target = obj
                 pass
 
         s.NrObjs = objId
+        s.AdasisSpeedLimitNr  = signalId
 
         s.NrTrfLights = 0
         if trafficlight:
