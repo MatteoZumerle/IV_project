@@ -113,11 +113,9 @@ int main(int argc, const char * argv[]) {
             double s_passing = 0;
             double v_passing = 0;
 
-            int flag30 = 0;         // flag used to decide to enter in the if to switch to the desired velocity
-            int flag10 = 0;
-            int flag50 = 0;
-            int flag90 = 0;
-            int flag_nolim = 0;
+            int flag10 = 0;         // flag used to decide to enter in the if to switch to the desired velocity
+            
+            
 
 
             double xs = 5;                // Safety space (in order to stop before)
@@ -193,7 +191,7 @@ int main(int argc, const char * argv[]) {
                 
 
                 // Limit 30
-                if (in->AdasisSpeedLimitDist[0]<20 && in->AdasisSpeedLimitDist[1]>0 && in->AdasisSpeedLimitDist[2]>0 && in->AdasisSpeedLimitDist[3]>0){
+                if (in->AdasisSpeedLimitDist[0]<20 && in->AdasisSpeedLimitDist[1]>0 && in->AdasisSpeedLimitDist[2]>0){
                     // Select the 30 km/h speed -> 8.33 m/s                    
                     printLogVar(message_id, "Preparo per zona 30", in->CycleNumber);
                    
@@ -208,10 +206,11 @@ int main(int argc, const char * argv[]) {
     
                 }
 
-                // Limit 10
-                else if (in->AdasisSpeedLimitDist[1]<20 && in->AdasisSpeedLimitDist[0]<0 && in->AdasisSpeedLimitDist[2]>0 && in->AdasisSpeedLimitDist[3]>0){
-                    // Select the 10 km/h speed ->  m/s                    
-                    printLogVar(message_id, "Preparo per zona 10", in->CycleNumber);
+                // Limit 50
+                else if (in->AdasisSpeedLimitDist[1]<20 && in->AdasisSpeedLimitDist[0]<0 && in->AdasisSpeedLimitDist[2]>0){
+                    // Select the 10 km/h speed ->  13.88 m/s  
+                    flag10 = 1;                  
+                    printLogVar(message_id, "Preparo per zona 50", in->CycleNumber);
                     
                     if (in->AdasisSpeedLimitDist[1]<0){
                         PassingPrimitive(a0, v0, lookahead, in->AdasisSpeedLimitValues[1]/3.6, in->AdasisSpeedLimitValues[1]/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
@@ -223,12 +222,12 @@ int main(int argc, const char * argv[]) {
     
                 }
 
-                // Limit 50
-                else if (in->AdasisSpeedLimitDist[2]<20 && in->AdasisSpeedLimitDist[0]<0 && in->AdasisSpeedLimitDist[1]<0 && in->AdasisSpeedLimitDist[3]>0){
-                    // Select the 10 km/h speed ->  m/s                    
-                    printLogVar(message_id, "Preparo per zona 50", in->CycleNumber);
+                // Limit 90
+                else if (in->AdasisSpeedLimitDist[2]<20 && in->AdasisSpeedLimitDist[0]<0 && in->AdasisSpeedLimitDist[1]<0){
+                    // Select the 10 km/h speed -> 25 m/s                    
+                    printLogVar(message_id, "Preparo per zona 90", in->CycleNumber);
                     
-                    if (in->AdasisSpeedLimitDist[1]<0){
+                    if (in->AdasisSpeedLimitDist[2]<0){
                         PassingPrimitive(a0, v0, lookahead, in->AdasisSpeedLimitValues[2]/3.6, in->AdasisSpeedLimitValues[2]/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
                     }
                     else {
@@ -238,20 +237,20 @@ int main(int argc, const char * argv[]) {
     
                 }
 
-                // Limit 90
+                /*
                 else if (in->AdasisSpeedLimitDist[3]<20 && in->AdasisSpeedLimitDist[0]<0 && in->AdasisSpeedLimitDist[1]<0 && in->AdasisSpeedLimitDist[2]<0){
-                    // Select the 10 km/h speed ->  m/s                    
-                    printLogVar(message_id, "Preparo per zona 50", in->CycleNumber);
+                    // Select the 10 km/h speed ->  25 m/s                    
+                    printLogVar(message_id, "Preparo per zona 90", in->CycleNumber);
                     
                     if (in->AdasisSpeedLimitDist[3]<0){
-                        PassingPrimitive(a0, v0, lookahead, in->AdasisSpeedLimitValues[2]/3.6, in->AdasisSpeedLimitValues[2]/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
+                        PassingPrimitive(a0, v0, lookahead, in->AdasisSpeedLimitValues[3]/3.6, in->AdasisSpeedLimitValues[3]/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
                     }
                     else {
-                        PassingPrimitive(a0, v0, in->AdasisSpeedLimitDist[2], (in->AdasisSpeedLimitValues[2])/3.6, (in->AdasisSpeedLimitValues[2])/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
+                        PassingPrimitive(a0, v0, in->AdasisSpeedLimitDist[3], (in->AdasisSpeedLimitValues[3])/3.6, (in->AdasisSpeedLimitValues[3])/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
                     }
                     
     
-                }
+                } */
 
                 else {
                     PassingPrimitive(a0, v0, lookahead, vr, vr, minTime,  maxTime , mstar, mstar2);
@@ -326,8 +325,11 @@ int main(int argc, const char * argv[]) {
            
             // PID configuration
 
-            double P_gain = 0.01;
-            double I_gain = 1;
+            //double P_gain =0.015;
+            // double I_gain = 1.05;
+
+            double P_gain = 0.015;
+            double I_gain = 1.05;
             double Error = request_acc - a0;
             static double integration = 0;
             integration = integration + Error * DT;  // Missing to define the accelerations the error and the integration step
@@ -337,7 +339,8 @@ int main(int argc, const char * argv[]) {
                 Error = 0;
                 integration = 0;
                 old_req_acc = 0;
-                }              
+                } 
+
             
             req_pedal = Error*P_gain + integration * I_gain; 
            
@@ -364,6 +367,7 @@ int main(int argc, const char * argv[]) {
             logger.log_var("TrflgthPlot", "C3", mstar[3]);
             logger.log_var("TrflgthPlot", "C4", mstar[4]);
             logger.log_var("TrflgthPlot", "C5", mstar[5]);
+            logger.log_var("TrflgthPlot", "TL state", in->TrfLightCurrState);
             logger.log_var("TrflgthPlot", "Fasullo", in->CycleNumber);
 
             // Write log

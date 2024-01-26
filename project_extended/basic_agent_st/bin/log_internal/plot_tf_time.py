@@ -10,7 +10,7 @@ file_path = 'TrflgthPlot.csv'  # Assicurati che il nome del file sia corretto
 data = pd.read_csv(file_path)
 
 # time, dist, vel, acc, Sf, vmin, vmax, tmin, tmax, req_vel, req_acc, T, C0, C1, C2, C3, C4, C5
-#time, dist, vel, acc, Sf, vmin, vmax, tmin, tmax, req_vel, req_acc, T, C0, C1, C2, C3, C4, C5, Fasullo;
+#time, dist, vel, acc, Sf, vmin, vmax, tmin, tmax, req_vel, req_acc, T, C0, C1, C2, C3, C4, C5, tfstatus, Fasullo;
 
 name_temp = data.columns[0]
 name_dist = data.columns[1]
@@ -22,6 +22,7 @@ name_c2 = data.columns[14]
 name_c3 = data.columns[15]
 name_c4 = data.columns[16]
 name_c5 = data.columns[17]
+name_tfstatus = data.columns[18]
 
 #print("Nomi delle colonne:", name_temp, name_dist, name_vel, name_acc)
 
@@ -35,6 +36,7 @@ c2 = data[name_c2]
 c3 = data[name_c3]
 c4 = data[name_c4]
 c5 = data[name_c5]
+tfstatus = data[name_tfstatus]
 space_prim = []
 speed_prim = []
 
@@ -80,6 +82,33 @@ for i in range(len(c1)):
 #print("accelerazione: ", acc, "\n")
 
 
+
+def trova_posizioni_gruppi(vettore):
+    posizioni_iniziali = []
+    posizioni_finali = []
+    gruppo_corrente = None
+
+    for i, valore in enumerate(vettore):
+        if gruppo_corrente is None or valore != gruppo_corrente:
+            if gruppo_corrente is not None:
+                posizioni_finali.append(i - 1)
+            posizioni_iniziali.append(i)
+            gruppo_corrente = valore
+
+    # Aggiungi l'ultima posizione finale
+    if gruppo_corrente is not None:
+        posizioni_finali.append(len(vettore) - 1)
+
+    return posizioni_iniziali, posizioni_finali
+
+posizioni_iniziali, posizioni_finali = trova_posizioni_gruppi(tfstatus)
+
+print("Posizioni iniziali dei gruppetti:", posizioni_iniziali)
+print("Posizioni finali dei gruppetti:", posizioni_finali)
+
+
+
+
 # Crea una figura con due subplot (uno sotto l'altro)
 fig, (ax1, ax2, ax3) = plt.subplots(3, 1, sharex=True)
 
@@ -106,6 +135,64 @@ ax3.tick_params(axis='both', labelsize=10)
 ax3.set_xlabel('Time [s]')
 ax3.set_ylabel('Jerk [m/s^2]')
 ax3.legend()
+
+
+
+if tfstatus[0] == 1:
+    for i in range (0, len(posizioni_iniziali), 3):
+        ax1.axvspan(tempo[posizioni_iniziali[i]], tempo[posizioni_finali[i]], facecolor='green', alpha=0.2)
+        ax2.axvspan(tempo[posizioni_iniziali[i]], tempo[posizioni_finali[i]], facecolor='green', alpha=0.2)
+        ax3.axvspan(tempo[posizioni_iniziali[i]], tempo[posizioni_finali[i]], facecolor='green', alpha=0.2)
+    
+    for i in range (1, len(posizioni_iniziali), 3):
+        ax1.axvspan(tempo[posizioni_iniziali[i]], tempo[posizioni_finali[i]], facecolor='orange', alpha=0.2)
+        ax2.axvspan(tempo[posizioni_iniziali[i]], tempo[posizioni_finali[i]], facecolor='orange', alpha=0.2)
+        ax3.axvspan(tempo[posizioni_iniziali[i]], tempo[posizioni_finali[i]], facecolor='orange', alpha=0.2)
+    
+    for i in range (2, len(posizioni_iniziali), 3):
+        ax1.axvspan(tempo[posizioni_iniziali[i]], tempo[posizioni_finali[i]], facecolor='red', alpha=0.2)
+        ax2.axvspan(tempo[posizioni_iniziali[i]], tempo[posizioni_finali[i]], facecolor='red', alpha=0.2)
+        ax3.axvspan(tempo[posizioni_iniziali[i]], tempo[posizioni_finali[i]], facecolor='red', alpha=0.2)
+
+
+if tfstatus[0] == 2:
+    for i in range (0, len(posizioni_iniziali), 3):
+        ax1.axvspan(tempo[posizioni_iniziali[i]], tempo[posizioni_finali[i]], facecolor='orange', alpha=0.2)
+        ax2.axvspan(tempo[posizioni_iniziali[i]], tempo[posizioni_finali[i]], facecolor='orange', alpha=0.2)
+        ax3.axvspan(tempo[posizioni_iniziali[i]], tempo[posizioni_finali[i]], facecolor='orange', alpha=0.2)
+
+    for i in range (1, len(posizioni_iniziali), 3):
+        ax1.axvspan(tempo[posizioni_iniziali[i]], tempo[posizioni_finali[i]], facecolor='red', alpha=0.2)
+        ax2.axvspan(tempo[posizioni_iniziali[i]], tempo[posizioni_finali[i]], facecolor='red', alpha=0.2)
+        ax3.axvspan(tempo[posizioni_iniziali[i]], tempo[posizioni_finali[i]], facecolor='red', alpha=0.2)
+    
+    for i in range (2, len(posizioni_iniziali), 3):
+        ax1.axvspan(tempo[posizioni_iniziali[i]], tempo[posizioni_finali[i]], facecolor='green', alpha=0.2)
+        ax2.axvspan(tempo[posizioni_iniziali[i]], tempo[posizioni_finali[i]], facecolor='green', alpha=0.2)
+        ax3.axvspan(tempo[posizioni_iniziali[i]], tempo[posizioni_finali[i]], facecolor='green', alpha=0.2)
+
+
+if tfstatus[0] == 3:
+    for i in range (0, len(posizioni_iniziali), 3):
+        ax1.axvspan(tempo[posizioni_iniziali[i]], tempo[posizioni_finali[i]], facecolor='red', alpha=0.2)
+        ax2.axvspan(tempo[posizioni_iniziali[i]], tempo[posizioni_finali[i]], facecolor='red', alpha=0.2)
+        ax3.axvspan(tempo[posizioni_iniziali[i]], tempo[posizioni_finali[i]], facecolor='red', alpha=0.2)
+    
+    for i in range (1, len(posizioni_iniziali), 3):
+        ax1.axvspan(tempo[posizioni_iniziali[i]], tempo[posizioni_finali[i]], facecolor='green', alpha=0.2)
+        ax2.axvspan(tempo[posizioni_iniziali[i]], tempo[posizioni_finali[i]], facecolor='green', alpha=0.2)
+        ax3.axvspan(tempo[posizioni_iniziali[i]], tempo[posizioni_finali[i]], facecolor='green', alpha=0.2)
+    
+    for i in range (2, len(posizioni_iniziali), 3):
+        ax1.axvspan(tempo[posizioni_iniziali[i]], tempo[posizioni_finali[i]], facecolor='orange', alpha=0.2)
+        ax2.axvspan(tempo[posizioni_iniziali[i]], tempo[posizioni_finali[i]], facecolor='orange', alpha=0.2)
+        ax3.axvspan(tempo[posizioni_iniziali[i]], tempo[posizioni_finali[i]], facecolor='orange', alpha=0.2)
+
+
+
+
+
+
 
 # Mostra la figura
 plt.suptitle('Velocity, Acceleration, Jerk vs. time')
