@@ -18,6 +18,7 @@
 #include <vector>
 #include <algorithm>
 
+// --- MATLAB PRIMITIVES INCLUDE ---
 
 extern "C" {
 #include "screen_print_c.h"
@@ -26,10 +27,6 @@ extern "C" {
 #include "server_lib.h"
 #include "logvars.h"
 #include "primitives.h"
-
-// --- MATLAB PRIMITIVES INCLUDE ---
-// #include "primitives.h"
-// --- MATLAB PRIMITIVES INCLUDE ---
 
 #define DEFAULT_SERVER_IP    "127.0.0.1"
 #define SERVER_PORT               30000  // Server port
@@ -90,52 +87,36 @@ int main(int argc, const char * argv[]) {
             double coeffsT1[6];
             double coeffsT2[6];          
 
-            // Define the boundaries in terms of acceleration and velocities -------- FROM HERE THE CODES OF THE SLIDES PAG 104
+            // Define the boundaries in terms of acceleration and velocities -------- 
             
             double minAcc = -20;
             double maxAcc = 10;
-            double a0 = fmin(fmax(in->ALgtFild, minAcc), maxAcc);  // Here the saturation of the possible values of acceleration INVERTED WRT THE PRESENTED!
-            double v0 = in->VLgtFild;                              // Extract from the simulation the actual speed of the car
-            static double initial_dist = in->TrfLightDist;          // Extract from the simulation the initial dist from traffic light
+             double a0 = fmin(fmax(in->ALgtFild, minAcc), maxAcc);  // Here the saturation of the possible values of acceleration
+            
 
+            double vmin = 3;
+            double vmax = 15;
+            double vr = in->RequestedCruisingSpeed;
+            double v0 = in->VLgtFild;                              // Extract from the simulation the actual speed of the car
+
+            double lookahead = fmax(50, v0*5);                      // Look ahead distance to consider building the primitives
+            double xs = 5;                // Safety space (in order to stop before)
+            double xin = 10;              // Width of the intersection where is present the traffic light
+            double xtr = in->TrfLightDist; // Distance from the traffic light
+
+            static double initial_dist = in->TrfLightDist;          // Extract from the simulation the initial dist from traffic light
             static double initial_dist1 = in->AdasisSpeedLimitDist[0];          // Extract from the simulation the initial dist from signal 1
             static double initial_dist2 = in->AdasisSpeedLimitDist[1];          // Extract from the simulation the initial dist from signal 2
             static double initial_dist3 = in->AdasisSpeedLimitDist[2];          // Extract from the simulation the initial dist from signal 3
             static double initial_dist4 = in->AdasisSpeedLimitDist[3];          // Extract from the simulation the initial dist from signal 4
 
-
-            double lookahead = fmax(50, v0*5);                      // Look ahead distance to consider building the primitives
-            double vmin = 3;
-            double vmax = 15;
-            double vr = in->RequestedCruisingSpeed;
-
-            // calculate the parameter to pass to the regulating passing speed function
-            double s_passing = 0;
-            double v_passing = 0;
-
-            int flag10 = 0;         // flag used to decide to enter in the if to switch to the desired velocity
-            
-            
-
-
-            double xs = 5;                // Safety space (in order to stop before)
-            double Ts = xs/vmin;          // Safety time in order to stop before
-            double xin = 10;              // Width of the intersection where is present the traffic light
-            double Tin = xin/vmin;
-
-            double xtr;
             double xstop;
             double mstar[6];
             double mstar2[6];
-            double xf = in->TrfLightDist; 
-
             double m1[6], m2[6];
-
-            double Tgreen;
-            double Tred;
-
             double s_max;
             double tf;
+
             // Save the initial time and distance of the TL from the starting point
 
             static double ECUupTimeOld = 0;
@@ -147,17 +128,24 @@ int main(int argc, const char * argv[]) {
             double minTime_reg = 0 ;             // Minimum time for the regulation of passing
             double maxTime_reg = 1000;             // Maximum time for the regulation of passing
 
+            double Ts = xs/vmin;          // Safety time in order to stop before
+            double Tin = xin/vmin;
+            double Tgreen;
+            double Tred;
 
             bool restart = 0;
             bool req_pass = 0;
             double req_pedal = 0;
 
-            //---------------------------------------------------------------------------//
+
+
+                                    //---------------------------------------------------------------------------//
+                                    //---------------------------------------------------------------------------//
             
-            // Main loop
+                                                                // Main loop
 
 
-            xtr = in->TrfLightDist;
+            
             xstop = xtr -xs/2;
 
             if (restart == 1 && in->TrfLightCurrState ==1){ // In order to restart from the red light
@@ -166,9 +154,7 @@ int main(int argc, const char * argv[]) {
                 restart = 0;
             }
        
-
-            if (xtr >= lookahead){
-                
+ 
                 
                 // Print the distances of the signals wrt the vehicle position
                 /*
@@ -189,15 +175,15 @@ int main(int argc, const char * argv[]) {
                 // ---------------- Here the division to regeulate correctly the speed limits ----------------
                
                 
+            if (xtr >= lookahead){
+               
 
                 // Limit 30
                 if (in->AdasisSpeedLimitDist[0]<20 && in->AdasisSpeedLimitDist[1]>0 && in->AdasisSpeedLimitDist[2]>0){
                     // Select the 30 km/h speed -> 8.33 m/s                    
-                    printLogVar(message_id, "Preparo per zona 30", in->CycleNumber);
-                   
+                                      
                     if (in->AdasisSpeedLimitDist[0]<0){
-                        printLogVar(message_id, "mantenimento zona 30", in->CycleNumber);   
-                        PassingPrimitive(a0, v0, lookahead, (in->AdasisSpeedLimitValues[0])/3.6, (in->AdasisSpeedLimitValues[0])/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
+                        PassingPrimitive(a0, v0, 10, (in->AdasisSpeedLimitValues[0])/3.6, (in->AdasisSpeedLimitValues[0])/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
                     }
                     else {
                         PassingPrimitive(a0, v0, in->AdasisSpeedLimitDist[0], (in->AdasisSpeedLimitValues[0])/3.6, (in->AdasisSpeedLimitValues[0])/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
@@ -208,12 +194,10 @@ int main(int argc, const char * argv[]) {
 
                 // Limit 50
                 else if (in->AdasisSpeedLimitDist[1]<20 && in->AdasisSpeedLimitDist[0]<0 && in->AdasisSpeedLimitDist[2]>0){
-                    // Select the 10 km/h speed ->  13.88 m/s  
-                    flag10 = 1;                  
-                    printLogVar(message_id, "Preparo per zona 50", in->CycleNumber);
+                    // Select the 50 km/h speed ->  13.88 m/s                
                     
                     if (in->AdasisSpeedLimitDist[1]<0){
-                        PassingPrimitive(a0, v0, lookahead, in->AdasisSpeedLimitValues[1]/3.6, in->AdasisSpeedLimitValues[1]/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
+                        PassingPrimitive(a0, v0, 10, in->AdasisSpeedLimitValues[1]/3.6, in->AdasisSpeedLimitValues[1]/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
                     }
                     else {
                         PassingPrimitive(a0, v0, in->AdasisSpeedLimitDist[1], (in->AdasisSpeedLimitValues[1])/3.6, (in->AdasisSpeedLimitValues[1])/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
@@ -224,9 +208,8 @@ int main(int argc, const char * argv[]) {
 
                 // Limit 90
                 else if (in->AdasisSpeedLimitDist[2]<20 && in->AdasisSpeedLimitDist[0]<0 && in->AdasisSpeedLimitDist[1]<0){
-                    // Select the 10 km/h speed -> 25 m/s                    
-                    printLogVar(message_id, "Preparo per zona 90", in->CycleNumber);
-                    
+                    // Select the 90 km/h speed -> 25 m/s                    
+                                        
                     if (in->AdasisSpeedLimitDist[2]<0){
                         PassingPrimitive(a0, v0, lookahead, in->AdasisSpeedLimitValues[2]/3.6, in->AdasisSpeedLimitValues[2]/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
                     }
@@ -237,21 +220,6 @@ int main(int argc, const char * argv[]) {
     
                 }
 
-                /*
-                else if (in->AdasisSpeedLimitDist[3]<20 && in->AdasisSpeedLimitDist[0]<0 && in->AdasisSpeedLimitDist[1]<0 && in->AdasisSpeedLimitDist[2]<0){
-                    // Select the 10 km/h speed ->  25 m/s                    
-                    printLogVar(message_id, "Preparo per zona 90", in->CycleNumber);
-                    
-                    if (in->AdasisSpeedLimitDist[3]<0){
-                        PassingPrimitive(a0, v0, lookahead, in->AdasisSpeedLimitValues[3]/3.6, in->AdasisSpeedLimitValues[3]/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
-                    }
-                    else {
-                        PassingPrimitive(a0, v0, in->AdasisSpeedLimitDist[3], (in->AdasisSpeedLimitValues[3])/3.6, (in->AdasisSpeedLimitValues[3])/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
-                    }
-                    
-    
-                } */
-
                 else {
                     PassingPrimitive(a0, v0, lookahead, vr, vr, minTime,  maxTime , mstar, mstar2);
                 }
@@ -260,6 +228,9 @@ int main(int argc, const char * argv[]) {
 
             }
             else {
+                
+                // If enough near to the traffic light consider to corresponding manouver
+
                 switch (in->TrfLightCurrState) {
                     case 1:
                         Tgreen = 0;
@@ -317,25 +288,22 @@ int main(int argc, const char * argv[]) {
 
             double t_offset = 0.0;                  // Generate the time required to the calculation that generates a delay
 
-            double jTold = jerk0 + t_offset * snap0 + 0.5 * pow(t_offset, 2) * crakle0;              // Starting jerk putting sf works!
+            double jTold = jerk0 + t_offset * snap0 + 0.5 * pow(t_offset, 2) * crakle0;              // Initial jerk
             double jTnew = jerk0 + (DT + t_offset) * snap0 + 0.5 * pow(DT + t_offset, 2) * crakle0;  // Final jerk after the deltaT
             double request_acc = fmin(fmax(old_req_acc + longGain * (DT * (jTnew+jTold) * 0.5), minAcc), maxAcc);
             old_req_acc = request_acc;
-            double req_vel = v_opt_fun(DT, v0, a0, xf, v0, 0.0, tf);     
+            double req_vel = v_opt_fun(DT, v0, a0, xtr, v0, 0.0, tf);     
            
             // PID configuration
-
-            //double P_gain =0.015;
-            // double I_gain = 1.05;
 
             double P_gain = 0.015;
             double I_gain = 1.05;
             double Error = request_acc - a0;
             static double integration = 0;
-            integration = integration + Error * DT;  // Missing to define the accelerations the error and the integration step
+            integration = integration + Error * DT;  
 
             
-            if (v0 <=0.001 && restart  == 1){      // Putting a limit for the req_pedal in order to limit its decreasing
+            if (v0 <=0.001 && restart  == 1){      // Putting a limit for the req_pedal in order to limit its decreasing (correction of the value degeneration)
                 Error = 0;
                 integration = 0;
                 old_req_acc = 0;
@@ -353,7 +321,7 @@ int main(int argc, const char * argv[]) {
             logger.log_var("TrflgthPlot", "dist", 665 - in-> TrfLightDist);
             logger.log_var("TrflgthPlot", "vel", in->VLgtFild);
             logger.log_var("TrflgthPlot", "acc", in->ALgtFild);
-            logger.log_var("TrflgthPlot", "Sf", xf);
+            logger.log_var("TrflgthPlot", "Sf", xtr);
             logger.log_var("TrflgthPlot", "vmin", vmin);
             logger.log_var("TrflgthPlot", "vmax", vmax);
             logger.log_var("TrflgthPlot", "tmin", minTime);

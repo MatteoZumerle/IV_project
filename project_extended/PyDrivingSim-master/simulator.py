@@ -35,8 +35,7 @@ def main():
     cone = TrafficCone()
     cone.set_pos((1.0,-2))
 
-  # Decide the position from start of the signal, writing it on the first number
-
+  # Position of the road signals
 
     signal = Signal(30)
     signal.set_pos((200, 6))
