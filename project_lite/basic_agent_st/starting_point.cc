@@ -255,6 +255,7 @@ int main(int argc, const char * argv[]) {
             logger.log_var("TrflgthPlot", "C3", mstar[3]);
             logger.log_var("TrflgthPlot", "C4", mstar[4]);
             logger.log_var("TrflgthPlot", "C5", mstar[5]);
+            logger.log_var("TrflgthPlot", "TL state", in->TrfLightCurrState);
             logger.log_var("TrflgthPlot", "Fasullo", in->CycleNumber);
 
             // Write log
