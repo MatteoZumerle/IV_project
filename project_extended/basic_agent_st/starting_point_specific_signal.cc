@@ -134,10 +134,9 @@ int main(int argc, const char * argv[]) {
             double Tred;
 
             bool restart = 0;
+            bool req_pass = 0;
             double req_pedal = 0;
 
-            
-            int static sn = 0;
 
 
                                     //---------------------------------------------------------------------------//
@@ -175,64 +174,58 @@ int main(int argc, const char * argv[]) {
 
                 // ---------------- Here the division to regeulate correctly the speed limits ----------------
                
-
-
+                
             if (xtr >= lookahead){
+               
 
-
-                printLogVar(message_id, "Segnale osservato", sn);
-                printLogVar(message_id, "Distanza  segnale osservato", in->AdasisSpeedLimitDist[sn]);
-
-                
-
-                if (in->AdasisSpeedLimitDist[sn]<20 && in->AdasisSpeedLimitDist[sn]>0){
-                        // Regulation speed
-                        printLogVar(message_id, "Approaching ", sn);
-                        
-                       
-                            // Arriving speed lim > Successive speed : brake before the new speed lim
-                            if (in->AdasisSpeedLimitNr == 1 ){
-                                PassingPrimitive(a0, v0, 5, (in->AdasisSpeedLimitValues[sn])/3.6, (in->AdasisSpeedLimitValues[sn])/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
-                            }
-                            else{  
-                                if(v0 > in->AdasisSpeedLimitValues[sn]/3.6){
-                                    PassingPrimitive(a0, v0, in->AdasisSpeedLimitDist[sn], (in->AdasisSpeedLimitValues[sn])/3.6, (in->AdasisSpeedLimitValues[sn])/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
-                                    printLogVar(message_id, "Decelerazione da v alta ", (in->AdasisSpeedLimitValues[sn])/3.6);
-                                }    
-                                else {
-                                    PassingPrimitive(a0, v0, in->AdasisSpeedLimitDist[sn], (in->AdasisSpeedLimitValues[sn+1])/3.6, (in->AdasisSpeedLimitValues[sn+1])/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
-                                    printLogVar(message_id, "Accelerazione da v bassa ", (in->AdasisSpeedLimitValues[sn+1])/3.6);
-                                }                      
-                                                        
-                            }
-
-                        
-                }
-
-                else if (in->AdasisSpeedLimitDist[sn]<0 ){
-                        // Fixing speed
-                        printLogVar(message_id, "Regulatng ", sn);
-                        PassingPrimitive(a0, v0, 5, (in->AdasisSpeedLimitValues[sn])/3.6, (in->AdasisSpeedLimitValues[sn])/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
-                        sn = sn+1;
-                        
-                }  
-
-                if (in->AdasisSpeedLimitDist[0]>20 ){
-                     PassingPrimitive(a0, v0, lookahead, vr, vr, minTime, maxTime, mstar, mstar2);
-                }
-                else if (sn == in->AdasisSpeedLimitNr){
-                    PassingPrimitive(a0, v0, lookahead, (in->AdasisSpeedLimitValues[sn-1])/3.6, (in->AdasisSpeedLimitValues[sn-1])/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
-                }
-                
-                else if((in->AdasisSpeedLimitDist[sn-1]<=0)){
-                     printLogVar(message_id, "entraaaa?? ", in->AdasisSpeedLimitNr);
-                     PassingPrimitive(a0, v0, 5, (in->AdasisSpeedLimitValues[sn-1])/3.6, (in->AdasisSpeedLimitValues[sn-1])/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
-                    } 
-                
-
-
+                // Limit 30
+                if (in->AdasisSpeedLimitDist[0]<20 && in->AdasisSpeedLimitDist[1]>0 && in->AdasisSpeedLimitDist[2]>0){
+                    // Select the 30 km/h speed -> 8.33 m/s                    
+                                      
+                    if (in->AdasisSpeedLimitDist[0]<0){
+                        PassingPrimitive(a0, v0, 10, (in->AdasisSpeedLimitValues[0])/3.6, (in->AdasisSpeedLimitValues[0])/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
+                    }
+                    else {
+                        PassingPrimitive(a0, v0, in->AdasisSpeedLimitDist[0], (in->AdasisSpeedLimitValues[0])/3.6, (in->AdasisSpeedLimitValues[0])/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
+                    }
                     
-                
+    
+                }
+
+                // Limit 50
+                else if (in->AdasisSpeedLimitDist[1]<20 && in->AdasisSpeedLimitDist[0]<0 && in->AdasisSpeedLimitDist[2]>0){
+                    // Select the 50 km/h speed ->  13.88 m/s                
+                    
+                    if (in->AdasisSpeedLimitDist[1]<0){
+                        PassingPrimitive(a0, v0, 10, in->AdasisSpeedLimitValues[1]/3.6, in->AdasisSpeedLimitValues[1]/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
+                    }
+                    else {
+                        PassingPrimitive(a0, v0, in->AdasisSpeedLimitDist[1], (in->AdasisSpeedLimitValues[1])/3.6, (in->AdasisSpeedLimitValues[1])/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
+                    }
+                    
+    
+                }
+
+                // Limit 90
+                else if (in->AdasisSpeedLimitDist[2]<20 && in->AdasisSpeedLimitDist[0]<0 && in->AdasisSpeedLimitDist[1]<0){
+                    // Select the 90 km/h speed -> 25 m/s                    
+                                        
+                    if (in->AdasisSpeedLimitDist[2]<0){
+                        PassingPrimitive(a0, v0, lookahead, in->AdasisSpeedLimitValues[2]/3.6, in->AdasisSpeedLimitValues[2]/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
+                    }
+                    else {
+                        PassingPrimitive(a0, v0, in->AdasisSpeedLimitDist[2], (in->AdasisSpeedLimitValues[2])/3.6, (in->AdasisSpeedLimitValues[2])/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
+                    }
+                    
+    
+                }
+
+                else {
+                    PassingPrimitive(a0, v0, lookahead, vr, vr, minTime,  maxTime , mstar, mstar2);
+                }
+
+               
+
             }
             else {
                 
@@ -255,7 +248,6 @@ int main(int argc, const char * argv[]) {
 
                 if (xtr <= Ts){
                     PassingPrimitive(a0, v0, lookahead, vr, vr, minTime, maxTime, mstar, mstar2);
-                    
                 }
                 else{
                     PassingPrimitive(a0, v0, xtr, vmin, vmax, Tgreen, Tred, m1, m2);
@@ -353,8 +345,8 @@ int main(int argc, const char * argv[]) {
             // Screen print
             //printLogVar(message_id, "Time", num_seconds);
             //printLogVar(message_id, "Status", in->Status);
-            //printLogVar(message_id, "dist", 160 - in-> TrfLightDist);
-            //printLogVar(message_id, "CycleNumber", in->CycleNumber);
+            printLogVar(message_id, "dist", 160 - in-> TrfLightDist);
+            printLogVar(message_id, "CycleNumber", in->CycleNumber);
             printLogVar(message_id, "TF dist [m]", xtr);
             printLogVar(message_id, "LongVel", in->VLgtFild);
             printLogVar(message_id, "LongAcc", in->ALgtFild); //acc
@@ -362,7 +354,7 @@ int main(int argc, const char * argv[]) {
             //printLogVar(message_id, "Req vel", vr);
             printLogVar(message_id, "Req pedal", req_pedal);
             //printLogVar(message_id, "N trf lgth", in->NrTrfLights);
-            //printLogVar(message_id, "TL state", in->TrfLightCurrState);
+            printLogVar(message_id, "TL state", in->TrfLightCurrState);
             //printLogVar(message_id, "Stop position", xstop);
             
 

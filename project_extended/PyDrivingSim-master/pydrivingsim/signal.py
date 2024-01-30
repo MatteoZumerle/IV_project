@@ -28,6 +28,9 @@ class SegnaleSprite(pygame.sprite.Sprite):
         elif vel == 50:
             img = "imgs/50.png"
 
+        elif vel == 60:
+            img = "imgs/60.png"
+
         else:
             img = "imgs/90.png"
         

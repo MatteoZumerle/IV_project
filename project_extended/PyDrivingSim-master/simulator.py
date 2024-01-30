@@ -39,7 +39,7 @@ def main():
 
     signal = Signal(30)
     signal.set_pos((200, 6))
-
+    '''
     bologna = Bologna()
     bologna.set_pos((235, -8))
     bologna = Bologna()
@@ -48,13 +48,14 @@ def main():
     signal = Signal(50)
     signal.set_pos((300, 6))
 
+
     signal = Signal(90)
     signal.set_pos((550, 6))
 
     superstrada = Superstrada()
     superstrada.set_pos((550, -10))
 
-
+'''
     trafficlight = TrafficLight()
     trafficlight.set_pos((775,-3))
 
