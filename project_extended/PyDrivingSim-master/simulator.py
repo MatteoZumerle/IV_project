@@ -37,7 +37,7 @@ def main():
 
   # Position of the road signals
 
-    signal = Signal(30)
+    signal = Signal(90)
     signal.set_pos((200, 6))
     '''
     bologna = Bologna()
@@ -54,8 +54,7 @@ def main():
 
     superstrada = Superstrada()
     superstrada.set_pos((550, -10))
-
-'''
+  '''
     trafficlight = TrafficLight()
     trafficlight.set_pos((775,-3))
 

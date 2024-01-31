@@ -138,6 +138,7 @@ int main(int argc, const char * argv[]) {
 
             
             int static sn = 0;
+            double look_ahead_one = 0;
 
 
                                     //---------------------------------------------------------------------------//
@@ -186,52 +187,62 @@ int main(int argc, const char * argv[]) {
                 
 
                 if (in->AdasisSpeedLimitDist[sn]<20 && in->AdasisSpeedLimitDist[sn]>0){
-                        // Regulation speed
+                        // Approaching to the road speed limit signal
                         printLogVar(message_id, "Approaching ", sn);
                         
-                       
-                            // Arriving speed lim > Successive speed : brake before the new speed lim
                             if (in->AdasisSpeedLimitNr == 1 ){
-                                PassingPrimitive(a0, v0, 5, (in->AdasisSpeedLimitValues[sn])/3.6, (in->AdasisSpeedLimitValues[sn])/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
+                                // Special case with only one signal
+                                // Arriving speed > Successive speed : brake before the new speed lim
+                                if (v0 > (in->AdasisSpeedLimitValues[sn])/3.6 ){
+                                    look_ahead_one = (in->AdasisSpeedLimitValues[sn])/3.6;
+                                }
+                                else{
+                                    look_ahead_one = 100;
+                                }
+
+                                PassingPrimitive(a0, v0, look_ahead_one, (in->AdasisSpeedLimitValues[sn])/3.6, (in->AdasisSpeedLimitValues[sn])/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
                             }
                             else{  
                                 if(v0 > in->AdasisSpeedLimitValues[sn]/3.6){
+                                     // Arriving speed > Successive speed : brake before the new speed lim
                                     PassingPrimitive(a0, v0, in->AdasisSpeedLimitDist[sn], (in->AdasisSpeedLimitValues[sn])/3.6, (in->AdasisSpeedLimitValues[sn])/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
                                     printLogVar(message_id, "Decelerazione da v alta ", (in->AdasisSpeedLimitValues[sn])/3.6);
                                 }    
                                 else {
+                                    // Arriving speed lim < Successive speed lim : accelerate from the new speed lim
                                     PassingPrimitive(a0, v0, in->AdasisSpeedLimitDist[sn], (in->AdasisSpeedLimitValues[sn+1])/3.6, (in->AdasisSpeedLimitValues[sn+1])/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
-                                    printLogVar(message_id, "Accelerazione da v bassa ", (in->AdasisSpeedLimitValues[sn+1])/3.6);
+                                    printLogVar(message_id, "Accelerazione da v bassa ", (in->AdasisSpeedLimitValues[sn])/3.6);
                                 }                      
                                                         
                             }
-
                         
                 }
 
                 else if (in->AdasisSpeedLimitDist[sn]<0 ){
-                        // Fixing speed
+                        // Fixing speed, due to passed the signal
                         printLogVar(message_id, "Regulatng ", sn);
                         PassingPrimitive(a0, v0, 5, (in->AdasisSpeedLimitValues[sn])/3.6, (in->AdasisSpeedLimitValues[sn])/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
                         sn = sn+1;
                         
                 }  
 
+                // Here some "particular cases"
+
                 if (in->AdasisSpeedLimitDist[0]>20 ){
+                    // If no signal has been already seen
                      PassingPrimitive(a0, v0, lookahead, vr, vr, minTime, maxTime, mstar, mstar2);
                 }
                 else if (sn == in->AdasisSpeedLimitNr){
+                    // If the signal seen was the only one
                     PassingPrimitive(a0, v0, lookahead, (in->AdasisSpeedLimitValues[sn-1])/3.6, (in->AdasisSpeedLimitValues[sn-1])/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
                 }
                 
                 else if((in->AdasisSpeedLimitDist[sn-1]<=0)){
-                     printLogVar(message_id, "entraaaa?? ", in->AdasisSpeedLimitNr);
+                    // If I'm between two signals
+                     printLogVar(message_id, "Zona intermedia  ", in->AdasisSpeedLimitNr);
                      PassingPrimitive(a0, v0, 5, (in->AdasisSpeedLimitValues[sn-1])/3.6, (in->AdasisSpeedLimitValues[sn-1])/3.6, minTime_reg,  maxTime_reg , mstar, mstar2);
                     } 
-                
-
-
-                    
+       
                 
             }
             else {
